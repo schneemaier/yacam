@@ -26,13 +26,14 @@ TBD
 
 ## Installation and Usage
 
-1. Put the demo.bon file on an SD card with FAT file system (Suggestion to use a partition <1GB)
-2. Power up the camera while holding the setup button (~30 seconds)
+1. Put the demo.bin file on an SD card with FAT file system (Suggestion to use a partition <1GB)
+2. Insert the SD card and power up the camera while holding the setup button (~30 seconds)
 3. Flashing takes arouns 1-2 minutes
 4. After 2 minutes search for the YACAM AP on your phone or tablet. The AP is YaCAM+MAC address of the WIFI chip. If nothing happens camera will autoreboot in ~5 minutes.
 5. When WIFI is connected go to 192.168.4.1 with the browser on the phone
 6. Provide SSID and WPA password (Hidden SSID or none WPA authetication is currently not supported)
 7. After save the camera will reboot and connect to the WIFI
+8. Remove the SD Card before or during the reboot as otherwise it will be filled with log files.
 
 ## Usage
 
