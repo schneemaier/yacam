@@ -20,7 +20,7 @@ case "$1" in
                 NTPSERVER=time.google.com
         fi
 	logger -s "Starting ntpd: "
-	echo "$TIMEZONE" >> /tmp/TZ
+	echo "$TIMEZONE" > /tmp/TZ
 	#echo "server $NTPSERVER" >> /tmp/ntp.conf
 	/usr/sbin/ntpd -p $NTPSERVER
 	[ $? == 0 ] && logger -s "OK" || logger -s "FAIL"

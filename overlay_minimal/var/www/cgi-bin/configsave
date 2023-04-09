@@ -3,23 +3,6 @@
 # load current variables
 . /etc/yacam.conf
 
-echo "Content-type: text/html"
-echo "<!DOCTYPE html>"
-echo "<html lang='en' class=''>"
-echo "  <head>"
-echo "    <title>YaCAM Setup Save</title>"
-echo "    <meta charset='utf-8'>"
-echo "    <META http-equiv=Refresh Content="5; Url=cgi-bin/config">"
-echo "    <meta name='viewport' content='width=device-width,initial-scale=1,user-scalable=no'/>"
-echo "    <style>div,fieldset,input,select{padding:5px;font-size:1em;}fieldset{background:#f2f2f2;}p{margin:0.5em 0;}input{width:100%;box-sizing:>"
-echo "  </head>"
-echo "  <body>"
-echo "    <div style='text-align:left;display:inline-block;color:#000000;min-width:340px;'>"
-echo "      <h1>YaCAM Setup Save</h1>"
-echo "      <p> Saving settings<p>"
-echo "      <p></p>"
-echo "      <div></div>"
-
 read QUERY_STRING
 eval $(echo "$QUERY_STRING"|awk -F'&' '{for(i=1;i<=NF;i++){print $i}}')
 WFNAME=`httpd -d $WIFINAME`
@@ -34,6 +17,24 @@ NTIME_24=`httpd -d $NTIME_24`
 NENABLE_MAIN_RTSP=`httpd -d $NENABLE_MAIN_RTSP`
 NENABLE_MJPEG=`httpd -d $NENABLE_MJPEG`
 NENABLE_SUB_RTSP=`httpd -d $NENABLE_SUB_RTSP`
+
+echo "Content-type: text/html"
+echo "<!DOCTYPE html>"
+echo "<html lang='en' class=''>"
+echo "  <head>"
+echo "    <title>YaCAM Setup Save</title>"
+echo "    <meta charset='utf-8'>"
+echo "    <meta http-equiv=Refresh Content='5; Url=/'>"
+echo "    <meta name='viewport' content='width=device-width,initial-scale=1,user-scalable=no'/>"
+echo "    <style>div,fieldset,input,select{padding:5px;font-size:1em;}fieldset{background:#f2f2f2;}p{margin:0.5em 0;}input{width:100%;box-sizing:></style>"
+echo "  </head>"
+echo "  <body>"
+echo "    <div style='text-align:left;display:inline-block;color:#000000;min-width:340px;'>"
+echo "      <h1>YaCAM Setup Save</h1>"
+echo "      <p> Saving settings<p>"
+echo "      <p></p>"
+echo "      <div></div>"
+
 WIFIRESTART=0
 if [ "$WFNAME" != "$NETNAME" ]
 then
@@ -115,35 +116,44 @@ then
 fi
 
 echo "      <p>Settings saved! Restarting services</p>"
+sleep 1
+
 if [ "$WIFIRESTART" = "1" ]
 then
-	echo "      <p>Restaring WiFi!</p>"
-	/etc/init.d/S30wifi restart
+	echo "      <p>Restaring WiFi!"
+	/etc/init.d/S30wifi restart > /dev/null
+        echo " Done!</p>"
 fi
 if [ "$NTPRESTART" = "1" ]
 then
-        echo "      <p>Restaring NTP!</p>"
-        /etc/init.d/S45ntpd restart
+        echo "      <p>Restaring NTP!"
+        /etc/init.d/S45ntpd restart > /dev/null
+        echo " Done!</p>"
 fi
 if [ "$CAPTURERESTART" = "1" ]
 then
         echo "      <p>Restaring Capture!</p>"
-        /etc/init.d/S62capture stop
-	/etc/init.d/S60capturesettings restart
-	/etc/init.d/S62capture start
+        /etc/init.d/S62capture stop > /dev/null
+	/etc/init.d/S60capturesettings restart > /dev/null
+	/etc/init.d/S62capture start > /dev/null
+        echo " Done!</p>"
 fi
 if [ "$RTSPRESTART" = "1" ]
 then
         echo "      <p>Restaring RTSP!</p>"
-        /etc/init.d/S64v4l2rtpserver restart
+        /etc/init.d/S64v4l2rtpserver restart > /dev/null
+        echo " Done!</p>"
+
 fi
 if [ "$MJPEGRESTART" = "1" ]
 then
-        echo       "<p>Restaring MJPEG!</p>"
-        /etc/init.d/S66mjpg_streamer restart
+        echo       "<p>Restaring MJPEG!"
+        /etc/init.d/S66mjpg_streamer restart > /dev/null
+        echo " Done!</p>"
+
 fi
 
-echo "      <p>Done!</p>"
+echo "      <p>Returning to main page in a few seconds!</p>"
 echo "      <p></p>"
 echo "    </div>"
 echo "  </body>"
