@@ -38,18 +38,18 @@ RUN . $NVM_DIR/nvm.sh && npm config set unsafe-perm true
 
 
 
-RUN mkdir -p /YaCAM/build
-WORKDIR "/YaCAM/build"
+RUN mkdir -p /yacam/build
+WORKDIR "/yacam/build"
 RUN wget https://buildroot.org/downloads/buildroot-2016.02.tar.gz;
 RUN tar xvf buildroot-2016.02.tar.gz;
 RUN rm buildroot-2016.02.tar.gz;
 
 # Change to the buildroot directory
-WORKDIR "/YaCAM/build/buildroot-2016.02"
+WORKDIR "/yacam/build/buildroot-2016.02"
 
 # Copy the entire source tree. Expect it to be mounted over when developing.
 #COPY . /src
 
 #RUN /src/buildscripts/setup_buildroot.sh
 
-WORKDIR /YaCAM
+WORKDIR /yacam
