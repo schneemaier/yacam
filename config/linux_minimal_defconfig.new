@@ -269,7 +269,7 @@ CONFIG_UIDGID_CONVERTED=y
 # CONFIG_SYSFS_DEPRECATED is not set
 # CONFIG_RELAY is not set
 CONFIG_BLK_DEV_INITRD=y
-CONFIG_INITRAMFS_SOURCE="/YaCAM/build/buildroot-2016.02/output/images/initramfs.cpio"
+CONFIG_INITRAMFS_SOURCE="/yacam/build/buildroot-2016.02/output/images/initramfs.cpio"
 CONFIG_INITRAMFS_ROOT_UID=0
 CONFIG_INITRAMFS_ROOT_GID=0
 # CONFIG_RD_GZIP is not set
