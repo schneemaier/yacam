@@ -9,6 +9,7 @@ The firmeware is based mainly on [openmiko](https://github.com/openmiko/openmiko
 2. Bash http server for basic configuration
 3. AP mode for initial configuration of the WIFI conntion
 4. Single config file
+5. Uses the install as the stock firmware (demo.bin). The camera can be reflashed to stock as long the major partitions are not erase where the assigned mac address and the wyze secutiry kays are stored. 
 
 
 ## Differences from openmiko
@@ -17,8 +18,7 @@ The main difference that this project uses squashfs, overlayfs and jffs2. Things
 
 ## For end users
 
-This firmware is not yet ready for daily use!!!!
-
+This firmware is not yet ready for daily use!!!! Use it at your own risk!
 
 ## Overview
 
@@ -44,7 +44,7 @@ Default username and password for the streams is yacam/yacam
 ## Settings
 
 1. Connecting to the http port of the camera provides some settings 
-2. Eddit the yacam.conf file via ssh (default user root password root) for more options which are currently not supported on the web interf>
+2. Edit the yacam.conf file via ssh (default user root password root) for more options which are currently not supported on the web interf>
 3. Change the default password via ssh. It will be saved and will survive firmware upgrades
 4. Change username and password or disable authentication in the yacam.conf file for the streams
 
