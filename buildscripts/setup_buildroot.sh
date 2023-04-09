@@ -56,12 +56,12 @@ make ingenic_t20_defconfig
 
 # We just loaded it but these commands are how you save it back (here for reference)
 # Technically should be a no-op
-make savedefconfig BR2_DEFCONFIG=/src/config/ingenic_t20_defconfig
+#make savedefconfig BR2_DEFCONFIG=/src/config/ingenic_t20_defconfig
 # make linux-update-defconfig
 
 # Start the build process
 cd /yacam/build/buildroot-2016.02
 
-make sqlite
+#make sqlite
 make
 
