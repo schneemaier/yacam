@@ -1,7 +1,7 @@
 # YaCAM
 
 YaCAM is a custom opensource firmware for Wyze cameras that use the Ingenic T20 chip. Currently it is tested with Wyze V2 cameras with 128MB memory. I may work on others, but it is untested. Use it at your own risk.
-The firmeware is based mainly on openmiko, but some ideas are from other places like DaFang Hacks / OpenFang / OpenIPC.
+The firmeware is based mainly on [openmiko](https://github.com/openmiko/openmiko), but some ideas are from other places like DaFang Hacks / OpenFang / OpenIPC.
 
 ## Features
 
