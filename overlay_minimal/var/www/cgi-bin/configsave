@@ -1,0 +1,150 @@
+#!/bin/sh
+
+# load current variables
+. /etc/yacam.conf
+
+echo "Content-type: text/html"
+echo "<!DOCTYPE html>"
+echo "<html lang='en' class=''>"
+echo "  <head>"
+echo "    <title>YaCAM Setup Save</title>"
+echo "    <meta charset='utf-8'>"
+echo "    <META http-equiv=Refresh Content="5; Url=cgi-bin/config">"
+echo "    <meta name='viewport' content='width=device-width,initial-scale=1,user-scalable=no'/>"
+echo "    <style>div,fieldset,input,select{padding:5px;font-size:1em;}fieldset{background:#f2f2f2;}p{margin:0.5em 0;}input{width:100%;box-sizing:>"
+echo "  </head>"
+echo "  <body>"
+echo "    <div style='text-align:left;display:inline-block;color:#000000;min-width:340px;'>"
+echo "      <h1>YaCAM Setup Save</h1>"
+echo "      <p> Saving settings<p>"
+echo "      <p></p>"
+echo "      <div></div>"
+
+read QUERY_STRING
+eval $(echo "$QUERY_STRING"|awk -F'&' '{for(i=1;i<=NF;i++){print $i}}')
+WFNAME=`httpd -d $WIFINAME`
+WFPSK=`httpd -d $WIFIPSK`
+NNTPSERVER=`httpd -d $NNTPSERVER`
+NTIMEZONE=`httpd -d $NTIMEZONE`
+NFLIP_VERTICAL=`httpd -d $NFLIP_VERTICAL`
+NFLIP_HORIZONTAL=`httpd -d $NFLIP_HORIZONTAL`
+NTIME_LOCATION=`httpd -d $NTIME_LOCATION`
+NTIMESTAMP=`httpd -d $NTIMESTAMP`
+NTIME_24=`httpd -d $NTIME_24`
+NENABLE_MAIN_RTSP=`httpd -d $NENABLE_MAIN_RTSP`
+NENABLE_MJPEG=`httpd -d $NENABLE_MJPEG`
+NENABLE_SUB_RTSP=`httpd -d $NENABLE_SUB_RTSP`
+WIFIRESTART=0
+if [ "$WFNAME" != "$NETNAME" ]
+then
+	sed -i "/NETNAME/c\NETNAME=$WFNAME" /etc/yacam.conf
+	WIFIRESTART=1
+	echo "      <p>SSID Saved</p>"
+fi
+if [ "$WFPSK" != "$NETPW" ]
+then
+	sed -i "/NETPW/c\NETPW=$WFPSK" /etc/yacam.conf
+        WIFIRESTART=1
+	echo "      <p>WIFI Password Saved</p>"
+fi
+
+NTPRESTART=0
+if [ "$NNTPSERVER" != "$NTPSERVER" ]
+then
+	sed -i "/NTPSERVER/c\NTPSERVER=$NNTPSERVER" /etc/yacam.conf
+	NTPRESTART=1
+	echo "      <p>NTP Server saved</p>"
+fi
+if [ "$NTIMEZONE" != "$TIMEZONE" ]
+then
+        sed -i "/TIMEZONE/c\TIMEZONE=$NTIMEZONE" /etc/yacam.conf
+        NTPRESTART=1
+        echo "      <p>Timezone saved</p>"
+fi
+
+CAPTURERESTART=0
+if [ "$NFLIP_VERTICAL" != "$FLIP_VERTICAL" ]
+then
+        sed -i "/FLIP_VERTICAL/c\FLIP_VERTICAL=$NFLIP_VERTICAL" /etc/yacam.conf
+        CAPTURERESTART=1
+        echo "      <p>Flip Vertical saved</p>"
+fi
+if [ "$NFLIP_HORIZONTAL" != "$FLIP_HORIZONTAL" ]
+then
+        sed -i "/FLIP_HORIZONTAL/c\FLIP_HORIZONTAL=$NFLIP_HORIZONTAL" /etc/yacam.conf
+        CAPTURERESTART=1
+        echo "      <p>Flip Horizontal saved</p>"
+fi
+if [ "$NTIME_LOCATION" != "$TIME_LOCATION" ]
+then
+        sed -i "/TIME_LOCATION/c\TIME_LOCATION=$NTIME_LOCATION" /etc/yacam.conf
+        CAPTURERESTART=1
+        echo "      <p>Time Stamp Location saved</p>"
+fi
+if [ "$NTIMESTAMP" != "$TIMESTAMP" ]
+then
+        sed -i "/TIMESTAMP/c\TIMESTAMP=$NTIMESTAMP" /etc/yacam.conf
+        CAPTURERESTART=1
+        echo "      <p>Timestamp saved</p>"
+fi
+if [ "$NTIME_24" != "$TIME_24" ]
+then
+        sed -i "/TIME_24/c\TIME_24=$NTIME_24" /etc/yacam.conf
+        CAPTURERESTART=1
+        echo "      <p>Time 24 saved</p>"
+fi
+RTSPRESTART=0
+if [ "$NENABLE_MAIN_RTSP" != "$ENABLE_MAIN_RTSP" ]
+then
+        sed -i "/ENABLE_MAIN_RTSP/c\ENABLE_MAIN_RTSP=$NENABLE_MAIN_RTSP" /etc/yacam.conf
+        RTSPRESTART=1
+        echo "      <p>RTSP Main updated</p>"
+fi
+if [ "$NENABLE_SUB_RTSP" != "$ENABLE_SUB_RTSP" ]
+then
+        sed -i "/ENABLE_SUB_RTSP/c\ENABLE_SUB_RTSP=$NENABLE_SUB_RTSP" /etc/yacam.conf
+        RTSPRESTART=1
+        echo "      <p>RTSP Sub updated</p>"
+fi
+MJPEGRESTART=0
+if [ "$NENABLE_MJPEG" != "$ENABLE_MJPEG" ]
+then
+        sed -i "/ENABLE_MJPEG/c\ENABLE_MJPEG=$NENABLE_MJPEG" /etc/yacam.conf
+        RTSPRESTART=1
+        echo "      <p>MJPEG updated</p>"
+fi
+
+echo "      <p>Settings saved! Restarting services</p>"
+if [ "$WIFIRESTART" = "1" ]
+then
+	echo "      <p>Restaring WiFi!</p>"
+	/etc/init.d/S30wifi restart
+fi
+if [ "$NTPRESTART" = "1" ]
+then
+        echo "      <p>Restaring NTP!</p>"
+        /etc/init.d/S45ntpd restart
+fi
+if [ "$CAPTURERESTART" = "1" ]
+then
+        echo "      <p>Restaring Capture!</p>"
+        /etc/init.d/S62capture stop
+	/etc/init.d/S60capturesettings restart
+	/etc/init.d/S62capture start
+fi
+if [ "$RTSPRESTART" = "1" ]
+then
+        echo "      <p>Restaring RTSP!</p>"
+        /etc/init.d/S64v4l2rtpserver restart
+fi
+if [ "$MJPEGRESTART" = "1" ]
+then
+        echo       "<p>Restaring MJPEG!</p>"
+        /etc/init.d/S66mjpg_streamer restart
+fi
+
+echo "      <p>Done!</p>"
+echo "      <p></p>"
+echo "    </div>"
+echo "  </body>"
+echo "</html>"

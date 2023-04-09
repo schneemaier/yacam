@@ -1,0 +1,102 @@
+  "general_settings": {
+    "flip_vertical": $FLIP_VERTICAL, 
+    "flip_horizontal": $FLIP_HORIZONTAL,
+    "timestamp_24h": $TIME_24,
+    "timestamp_location": $TIME_LOCATION,
+    "show_timestamp": $TIMESTAMP,
+    "enable_audio": $ENABLE_AUDIO
+  },
+  
+  "frame_sources": [{
+    "id": 0,
+    "pic_width": 1920,
+    "pic_height": 1080,
+    "group": 0,
+    "pixel_format": "PIX_FMT_NV12",
+    "buffer_size": 1,
+    "channel_type": "FS_PHY_CHANNEL",
+    "crop_enable": 0,
+    "crop_top": 0,
+    "crop_left": 0,
+    "crop_width": 0,
+    "crop_height": 0,
+    "scaling_enable": 1,
+    "scaling_width": 1920,
+    "scaling_height": 1080,
+    "frame_rate_numerator": 25,
+    "frame_rate_denominator": 1
+  },
+  {
+    "id": 1,
+    "pic_width": 640,
+    "pic_height": 360,
+    "group": 1,
+    "pixel_format": "PIX_FMT_NV12",
+    "buffer_size": 1,
+    "channel_type": "FS_PHY_CHANNEL",
+    "crop_enable": 0,
+    "crop_top": 0,
+    "crop_left": 0,
+    "crop_width": 0,
+    "crop_height": 0,
+    "scaling_enable": 1,
+    "scaling_width": 640,
+    "scaling_height": 360,
+    "frame_rate_numerator": 25,
+    "frame_rate_denominator": 1
+  }],
+  "osds": [{
+    "group": 0
+  }],
+  "bindings": [
+    {
+      "note": "Bind framesource 0,0 to OSD 0,0 ",
+      "source": {
+        "device": "DEV_ID_FS",
+        "group": 0,
+        "output": 0
+      },
+      "target": {
+        "device": "DEV_ID_OSD",
+        "group": 0,
+        "output": 0
+      }
+    },
+    {
+      "note": "Bind OSD 0,0 to encoder 0,0",
+      "source": {
+        "device": "DEV_ID_FS",
+        "group": 0,
+        "output": 0
+      },
+      "target": {
+        "device": "DEV_ID_ENC",
+        "group": 0,
+        "output": 0
+      }
+    },
+    {
+      "source": {
+        "device": "DEV_ID_FS",
+        "group": 0,
+        "output": 1
+      },
+      "target": {
+        "device": "DEV_ID_ENC",
+        "group": 1,
+        "output": 1
+      }
+    },
+    {
+      "source": {
+        "device": "DEV_ID_FS",
+        "group": 1,
+        "output": 1
+      },
+      "target": {
+        "device": "DEV_ID_ENC",
+        "group": 1,
+        "output": 2
+      }
+    }
+  ]

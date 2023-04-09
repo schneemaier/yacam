@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# Set hostname
+#
+
+. /etc/yacam.conf
+
+if [ ${#HOSTNAME} -ge 0 ]
+then
+	echo $HOSTNAME >> /tmp/hostname
+else
+	echo "yacam" >> /tmp/hostname
+fi
+
+exit $?

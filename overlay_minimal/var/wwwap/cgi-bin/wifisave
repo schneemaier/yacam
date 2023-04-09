@@ -1,0 +1,14 @@
+#!/bin/sh
+
+echo "Content-type: text/html"
+echo ""
+echo ""
+read QUERY_STRING
+eval $(echo "$QUERY_STRING"|awk -F'&' '{for(i=1;i<=NF;i++){print $i}}')
+WFNAME=`httpd -d $WIFINAME`
+WFPSK=`httpd -d $WIFIPSK`
+sed -i "/NETNAME/c\NETNAME=$WFNAME" /etc/yacam.conf
+sed -i "/NETPW/c\NETPW=$WFPSK" /etc/yacam.conf
+
+echo "Settings saved! Rebooting"
+reboot

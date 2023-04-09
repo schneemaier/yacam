@@ -1,0 +1,8 @@
+  "general_settings": {
+    "flip_vertical": $FLIP_VERTICAL, 
+    "flip_horizontal": $FLIP_HORIZONTAL,
+    "timestamp_24h": $TIME_24,
+    "timestamp_location": $TIME_LOCATION,
+    "show_timestamp": $TIMESTAMP,
+    "enable_audio": $ENABLE_AUDIO
+  },

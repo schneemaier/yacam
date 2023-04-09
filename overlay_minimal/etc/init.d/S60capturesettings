@@ -1,0 +1,116 @@
+#!/bin/sh
+#
+# Create video capture settings
+
+start_settings() {
+	# If running in AP mode then not starting the camera
+        if [[ -f /tmp/ap.conf ]]
+        then
+                echo "AP Mode not starting"
+                exit
+        fi
+        if [[ -f /tmp/videocapture.pid ]]
+        then
+        	echo "Video capture is already runing at pid: "`cat /tmp/videocapture.pid`
+        	exit
+        fi
+
+	if [[ -f /etc/yacam.conf ]]; then
+		set -a
+		. /etc/yacam.conf
+		set +a
+	else
+		echo "No config"
+		exit
+	fi
+
+	# Config creation
+	# Setting generation starts
+	echo "{" > /tmp/videocapture_settings.json
+
+	# Capture settings
+	envsubst < /etc/vidcapture/videocapture_settings.general >> /tmp/videocapture_settings.json
+	
+	set -a
+	# frame sources
+	echo '  "frame_sources": [' >> /tmp/videocapture_settings.json
+	if [ "$ENABLE_MAIN_RTSP" = "1" ] || [ "$ENABLE_MJPEG" = "1" ]
+	then
+		SOURCE_ID=$MAIN_SOURCE_ID
+		X_RES=$MAIN_X_RES
+		Y_RES=$MAIN_Y_RES
+		envsubst < /etc/vidcapture/videocapture_settings.capture >> /tmp/videocapture_settings.json
+	fi
+	if [ "$ENABLE_SUB_RTSP" = "1" ]
+	then
+		SOURCE_ID=$SUB_SOURCE_ID
+		X_RES=$SUB_X_RES
+		Y_RES=$SUB_Y_RES
+		envsubst < /etc/vidcapture/videocapture_settings.capture >> /tmp/videocapture_settings.json
+	fi
+	# remove last ,
+	sed -i '$ s/.$//' /tmp/videocapture_settings.json
+	echo "  ]," >> /tmp/videocapture_settings.json
+	# frame sources done
+	
+	# Encoder settings starts
+	VIDNUM=3
+	echo '  "encoders": [' >> /tmp/videocapture_settings.json
+	if [ "$ENABLE_MAIN_RTSP" = "1" ]
+	then
+		CHANNEL=$((VIDNUM-3))
+		VIDEO_DEV="/dev/video"$VIDNUM
+		XRES=$MAIN_X_RES
+		YRES=$MAIN_Y_RES
+		ENC=PT_H264
+		envsubst < /etc/vidcapture/videocapture_settings.encoder >> /tmp/videocapture_settings.json
+		VIDNUM=$((VIDNUM+1))
+	fi
+	if [ "$ENABLE_MJPEG" = "1" ]
+	then
+		CHANNEL=$((VIDNUM-3))
+		VIDEO_DEV="/dev/video"$VIDNUM
+		XRES=$MAIN_X_RES
+		YRES=$MAIN_Y_RES
+		ENC=PT_JPEG
+		envsubst < /etc/vidcapture/videocapture_settings.encoder >> /tmp/videocapture_settings.json
+		VIDNUM=$((VIDNUM+1))
+	fi
+	if [ "$ENABLE_SUB_RTSP" = "1" ]
+	then
+		CHANNEL=$((VIDNUM-3))
+		VIDEO_DEV="/dev/video"$VIDNUM
+		XRES=$SUB_X_RES
+		YRES=$SUB_Y_RES
+		ENC=$PT_H264
+		envsubst < /etc/vidcapture/videocapture_settings.encoder >> /tmp/videocapture_settings.json
+	fi
+	set +a
+	# remove last ,
+	sed -i '$ s/.$//' /tmp/videocapture_settings.json
+	echo "  ]," >> /tmp/videocapture_settings.json
+	# Encoder settings finished
+	
+	# OSD binding
+	cat /etc/vidcapture/videocapture_settings.osd >> /tmp/videocapture_settings.json
+	
+	cat /etc/vidcapture/videocapture_settings.bindings >> /tmp/videocapture_settings.json
+
+	# Setting generation finish
+}
+
+case "$1" in
+	start)
+		start_settings	
+		;;
+	stop)
+		;;
+	restart|reload)
+		start_settings
+		;;
+  	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+esac
+
+exit $?

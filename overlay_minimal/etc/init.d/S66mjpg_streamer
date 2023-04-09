@@ -1,0 +1,53 @@
+#!/bin/sh
+#
+# Start mjpg-streamer
+#
+
+case "$1" in
+	start)
+		if [[ ! -f /etc/yacam.conf ]]
+		then
+			echo "Config missing!"
+			exit
+		fi
+		. /etc/yacam.conf
+		if [ "$ENABLE_MJPEG" != "1" ]
+		then
+			echo "MJPG disabled not starting"
+			exit 0
+		fi
+	        if [[ -f /tmp/ap.conf ]]
+	        then
+	                echo "AP Mode"
+	                exit
+	        fi
+	        if [[ ! -f /tmp/videocapture.pid ]]
+	        then
+	        	echo "Video capture is not runing!"
+	        	exit
+	        fi
+		AUTH=""
+		if [ "$ENABLE_AUTH" = "1" ]
+		then
+			AUTH="-c "$USERNAME":"$PASSWORD
+		fi
+	 	echo -n "Starting mjpg_streamer ($MJPEG_FPS fps): "
+	 	VIDNUM=$((3+$ENABLE_MAIN_RTSP))
+		mjpg_streamer -i "input_v4l2loopback.so -d /dev/video$VIDNUM --fps $MJPEG_FPS" -o "output_http.so -p $MJPEG_PORT $AUTH" > /dev/null 2>&1 &
+		[ $? == 0 ] && echo "OK" || echo "FAIL"
+		;;
+	stop)
+		echo -n "Stopping mjpg_streamer: "
+		killall mjpg_streamer
+		[ $? == 0 ] && echo "OK" || echo "FAIL"
+		;;
+	restart|reload)
+		"$0" stop
+		"$0" start
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+esac
+
+exit $?

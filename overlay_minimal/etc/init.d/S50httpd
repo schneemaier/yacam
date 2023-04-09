@@ -1,0 +1,46 @@
+#!/bin/sh
+#
+# Starts busybox httpd.
+#
+
+start() {
+        echo "Starting busybox httpd server...."
+        if [[ -f /tmp/ap.conf ]]
+        then
+                # AP mode
+                echo "AP Mode"
+                httpd -h /var/wwwap -p 80 -v
+        else
+                # Normal mode
+                echo "Normal Mode"
+                httpd -h /var/www -p 80 -v
+        fi
+        echo "OK"
+}
+stop() {
+        echo "Stopping busybox httpd server..."
+        killall httpd
+        echo "Done"
+}
+restart() {
+	stop
+	start
+}
+
+case "$1" in
+  start)
+	start
+	;;
+  stop)
+	stop
+	;;
+  restart|reload)
+	restart
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
+

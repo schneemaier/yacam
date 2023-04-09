@@ -1,0 +1,43 @@
+#!/bin/sh
+#
+# Start network time daemon
+#
+
+case "$1" in
+  start)
+	if [[ -f /tmp/ap.conf ]]
+	then
+		echo "AP Mode"
+		exit
+	fi
+        if [[ -f /etc/yacam.conf ]]; then
+                set -a
+                . /etc/yacam.conf
+                set +a
+        else
+                echo "No config"
+		TZ=EST5EDT
+                NTPSERVER=time.google.com
+        fi
+	logger -s "Starting ntpd: "
+	echo "$TIMEZONE" >> /tmp/TZ
+	#echo "server $NTPSERVER" >> /tmp/ntp.conf
+	/usr/sbin/ntpd -p $NTPSERVER
+	[ $? == 0 ] && logger -s "OK" || logger -s "FAIL"
+	;;
+  stop)
+	logger -s "Stopping ntpd: "
+	killall ntpd
+	[ $? == 0 ] && logger -s "OK" || logger -s "FAIL"
+	;;
+  restart|reload)
+	"$0" stop
+	"$0" start
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?
+

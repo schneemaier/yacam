@@ -1,0 +1,9 @@
+#!/bin/sh
+
+set -a
+. /etc/yacam.conf
+VERSION=`cat /etc/VERSION`
+
+set +a
+
+envsubst < /var/www/wwwtpl/Firmware.tpl

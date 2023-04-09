@@ -1,0 +1,9 @@
+#!/bin/sh
+
+
+set -a
+. /etc/yacam.conf
+set +a
+
+envsubst < /etc/test/wwwtmp/WifiSetup.tmp
+

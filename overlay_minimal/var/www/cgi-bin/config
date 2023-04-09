@@ -1,0 +1,114 @@
+#!/bin/sh
+
+set -a
+. /etc/yacam.conf
+VERSION=`cat /etc/VERSION`
+NTIME0=''
+NTIME1=''
+NTIME2=''
+NTIME3=''
+N240=''
+N241=''
+NTS0=''
+NTS1=''
+NFV0=''
+NFV1=''
+NFH0=''
+NFH1=''
+NRM0=''
+NRM1=''
+NM0=''
+NM1=''
+NRS0=''
+NRS1=''
+case $TIME_LOCATION in
+	0)
+		NTIME0=' selected'
+		;;
+        1)
+                NTIME1=' selected'
+		;;
+        2)
+                NTIME2=' selected'
+		;;
+        3)
+                NTIME3=' selected'
+		;;
+	*)
+		;;
+esac
+case $TIMESTAMP in
+        0)
+                NTS0=' selected'
+                ;;
+        1)
+                NTS1=' selected'
+                ;;
+        *)
+                ;;
+esac
+case $TIME_24 in
+        0)
+                N240=' selected'
+                ;;
+        1)
+                N241=' selected'
+                ;;
+        *)
+                ;;
+esac
+case $FLIP_HORIZONTAL in
+        0)
+                NFH0=' selected'
+                ;;
+        1)
+                NFH1=' selected'
+                ;;
+        *)
+                ;;
+esac
+case $FLIP_VERTICAL in
+        0)
+                NFV0=' selected'
+                ;;
+        1)
+                NFV1=' selected'
+                ;;
+        *)
+                ;;
+esac
+case $ENABLE_MAIN_RTSP in
+        0)
+                NRM0=' selected'
+                ;;
+        1)
+                NRM1=' selected'
+                ;;
+        *)
+                ;;
+esac
+case $ENABLE_MJPEG in
+        0)
+                NM0=' selected'
+                ;;
+        1)
+                NM1=' selected'
+                ;;
+        *)
+                ;;
+esac
+case $ENABLE_SUB_RTSP in
+        0)
+                NRS0=' selected'
+                ;;
+        1)
+                NRS1=' selected'
+                ;;
+        *)
+                ;;
+esac
+
+
+set +a
+
+envsubst < /var/www/wwwtpl/Config.tpl

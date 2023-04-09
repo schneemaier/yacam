@@ -1,0 +1,122 @@
+#!/bin/sh
+#
+# Start video and audio capture
+#
+#VIDEO_CAPTURE_SETTINGS=/etc/videocapture_settings.json
+
+start_capture() {
+	# If running in AP mode then not starting the camera
+        if [[ -f /tmp/ap.conf ]]
+        then
+                echo "AP Mode not starting"
+                exit
+        fi
+        if [[ -f /tmp/videocapture.pid ]]
+        then
+        	echo "Video capture is already runing at pid: "`cat /tmp/videocapture.pid`
+        	exit
+        fi
+
+	if [[ -f /etc/yacam.conf ]]; then
+		set -a
+		. /etc/yacam.conf
+		set +a
+	else
+		echo "No config"
+		exit
+	fi
+	echo "Starting capture..."
+	# Determine the image sensor model
+	echo "Adding necessary camera modules"
+
+	modprobe sinfo
+	echo 1 >/proc/jz/sinfo/info
+	sensor=$(grep -m1 -oE 'jxf[0-9]*$' /proc/jz/sinfo/info)
+	logger -s "Determined image sensor model as $sensor"
+
+	modprobe tx-isp isp_clk=100000000
+
+	if [ "$sensor" = "jxf23" ]; then
+		insmod /lib/modules/3.10.14/kernel/drivers/media/platform/sensors/jxf23/sensor_jxf23.ko data_interface=2 pwdn_gpio=-1 reset_gpio=18 sensor_gpio_func=0
+	else
+		insmod /lib/modules/3.10.14/kernel/drivers/media/platform/sensors/jxf22/sensor_jxf22.ko data_interface=2 pwdn_gpio=-1 reset_gpio=18 sensor_gpio_func=0
+	fi
+
+	# Turn on the infared cutoff filter (normal light operation)
+	. /usr/bin/nightmode.sh off
+
+	# For some reason if I load the v4l2rtspserver with live555 before
+	# loading the ALSA loopback module userspace can't seem to see
+	# the ALSA device. Not sure why but order matters here.
+
+	modprobe snd-aloop index=0 pcm_substreams=2 enable=1
+
+	# Disabling sound for now until we can look into the bugs more
+	# The main bug I am dealing with is a race condition with the sound device
+	# and v4l2rtspserver and if it doesn't come up properly the camera does not have
+	# rtsp.
+	sleep 1
+
+	if [ $ENABLE_AUDIO = "1" ]; then 
+		if [[ ! -f /tmp/ffmpegaudio.pid ]] ; then
+			echo "Starting FFMPEG audio thread..."
+			ffmpeg -thread_queue_size 256 -fflags +genpts -re -nostats -nostdin -ac 1 -f oss -i /dev/dsp -codec:a copy -f alsa hw:0,0 > /dev/null 2>&1 &
+			echo $! > /tmp/ffmpegaudio.pid
+		else
+			echo "FFMPEG is already running. Skipping."
+		fi
+	else
+		echo "Audio is set to disabled in yacam.conf. Skipping starting ffmpeg"
+	fi
+
+
+	DEVICE_COUNT=$((ENABLE_MAIN_RTSP+ENABLE_MJPEG+ENABLE_SUB_RTSP))
+	echo "Setting up $DEVICE_COUNT v4l2loopback device(s)"
+	modprobe v4l2loopback devices=$DEVICE_COUNT
+
+	logger -s "Starting video frame capture process"
+	/usr/bin/videocapture /tmp/videocapture_settings.json >> /var/log/videocapture.log 2>&1 &
+	echo $! > /tmp/videocapture.pid
+	sleep 10
+
+        # Wait for the videocapture program to initialize the v4l2 device
+        MAX_WAIT=5
+        i=0
+        while [[ -e $(fuser /dev/video$((2+DEVICE_COUNT))) ]]
+        do
+                logger -s "Waiting for initialization of v4l2 device"
+                sleep 1
+                i=`expr $i + 1`
+                if [[ $i -gt $MAX_WAIT ]]
+                then
+                        logger -s "Unable to initialize v4l2 device"
+                        break
+                fi
+        done
+}
+
+stop_capture() {
+	echo "Stopping capture..."
+	kill `cat /tmp/ffmpegaudio.pid`
+	kill `cat /tmp/videocapture.pid`
+	rm /tmp/ffmpegaudio.pid
+	rm /tmp/videocapture.pid
+}
+
+case "$1" in
+	start)
+		start_capture
+		;;
+	stop)
+		stop_capture
+		;;
+	restart|reload)
+		stop_capture
+		start_capture
+		;;
+  	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+esac
+
+exit $?
