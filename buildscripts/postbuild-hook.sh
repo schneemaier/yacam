@@ -4,9 +4,9 @@ set -e
 echo "Peforming post rootfs build hooks"
 
 # The path to the images output directory is passed as the first argument
-DEFAULT_IMAGE_DIR="/YaCAM/build/buildroot-2016.02/output/images"
+DEFAULT_IMAGE_DIR="/yacam/build/buildroot-2016.02/output/images"
 IMAGES=${1:-$DEFAULT_IMAGE_DIR}
-BASE_DIR=${BASE_DIR:-/YaCAM/build/buildroot-2016.02/output}
+BASE_DIR=${BASE_DIR:-/yacam/build/buildroot-2016.02/output}
 
 # The environment variables BR2_CONFIG, HOST_DIR, STAGING_DIR,
 # TARGET_DIR, BUILD_DIR, BINARIES_DIR and BASE_DIR are defined
@@ -29,7 +29,7 @@ cp $IMAGES/uImage.lzma $RELEASE_DIR
 cp $IMAGES/u-boot-lzo-with-spl.bin $RELEASE_DIR
 
 
-MKIMAGE=/YaCAM/build/buildroot-2016.02/output/build/uboot-openmiko/tools/mkimage
+MKIMAGE=/yacam/build/buildroot-2016.02/output/build/uboot-openmiko/tools/mkimage
 if [ ! -f "/usr/sbin/mkimage" ]; then
 	ln -s $MKIMAGE /usr/sbin/mkimage
 fi
@@ -83,7 +83,7 @@ truncate -s $FLASH_MAXSIZE $KERNEL_AND_ROOTSQUASHFS
 
 
 # Make an image for flashing
-OUTFILE2="${RELEASE_DIR}/YaCAM_firmware.squashfs.bin"
+OUTFILE2="${RELEASE_DIR}/yacam_firmware.squashfs.bin"
 $MKIMAGE -A MIPS -O linux -T firmware -C none -a 0 -e 0 -n jz_fw -d $KERNEL_AND_ROOTSQUASHFS $OUTFILE2
 
 

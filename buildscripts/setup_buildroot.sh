@@ -4,27 +4,27 @@ set -e
 # This script is expected to be run inside the development container
 # It copies from /src files that have been changed for buildroot purposes
 
-cd /YaCAM/build/buildroot-2016.02
+cd /yacam/build/buildroot-2016.02
 
 # Copy over custom packages removing standard ones we don't want to use
 
 # ffmpeg doesn't seem to build out of the box so use our own
-rm -rf /YaCAM/build/buildroot-2016.02/package/ffmpeg
+rm -rf /yacam/build/buildroot-2016.02/package/ffmpeg
 
 
 # Use our own mjpg-streamer package
-rm -rf /YaCAM/build/buildroot-2016.02/package/mjpg-streamer
+rm -rf /yacam/build/buildroot-2016.02/package/mjpg-streamer
 
 # Old ncurses doesn't support xterm-256color so use updated one
-rm -rf /YaCAM/build/buildroot-2016.02/package/ncurses
+rm -rf /yacam/build/buildroot-2016.02/package/ncurses
 
-rm -rf /YaCAM/build/buildroot-2016.02/package/lighttpd
+rm -rf /yacam/build/buildroot-2016.02/package/lighttpd
 
-rm -rf /YaCAM/build/buildroot-2016.02/package/logrotate
+rm -rf /yacam/build/buildroot-2016.02/package/logrotate
 
-rm -rf /YaCAM/build/buildroot-2016.02/package/wpa_supplicant
+rm -rf /yacam/build/buildroot-2016.02/package/wpa_supplicant
 
-cp -r /src/custompackages/package/* /YaCAM/build/buildroot-2016.02/package/
+cp -r /src/custompackages/package/* /yacam/build/buildroot-2016.02/package/
 
 
 # Avoid FPU bug on XBurst CPUs
@@ -60,7 +60,7 @@ make savedefconfig BR2_DEFCONFIG=/src/config/ingenic_t20_defconfig
 # make linux-update-defconfig
 
 # Start the build process
-cd /YaCAM/build/buildroot-2016.02
+cd /yacam/build/buildroot-2016.02
 
 make sqlite
 make

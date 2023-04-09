@@ -3,7 +3,7 @@
 # Create the cpio root filesystem that is embedded in the kernel
 # This is a minimal root filesystem to bootstrap the bigger rootfs
 
-ROOTFS_DIR=/YaCAM/build/buildroot-2016.02/output/initramfs_root
+ROOTFS_DIR=/yacam/build/buildroot-2016.02/output/initramfs_root
 
 rm -rf $ROOTFS_DIR
 
@@ -11,4 +11,4 @@ rm -rf $ROOTFS_DIR
 
 cd $ROOTFS_DIR
 
-find . | cpio -H newc -o > /YaCAM/build/buildroot-2016.02/output/images/initramfs.cpio
+find . | cpio -H newc -o > /yacam/build/buildroot-2016.02/output/images/initramfs.cpio
