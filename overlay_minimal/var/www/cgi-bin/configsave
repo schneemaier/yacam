@@ -19,6 +19,7 @@ NENABLE_MJPEG=`httpd -d $NENABLE_MJPEG`
 NENABLE_SUB_RTSP=`httpd -d $NENABLE_SUB_RTSP`
 
 echo "Content-type: text/html"
+echo ""
 echo "<!DOCTYPE html>"
 echo "<html lang='en' class=''>"
 echo "  <head>"
