@@ -7,6 +7,7 @@ read QUERY_STRING
 eval $(echo "$QUERY_STRING"|awk -F'&' '{for(i=1;i<=NF;i++){print $i}}')
 WFNAME=`httpd -d $WIFINAME`
 WFPSK=`httpd -d $WIFIPSK`
+WHIDDEN=`httpd -d $WHIDDEN`
 NNTPSERVER=`httpd -d $NNTPSERVER`
 NTIMEZONE=`httpd -d $NTIMEZONE`
 NFLIP_VERTICAL=`httpd -d $NFLIP_VERTICAL`
@@ -48,6 +49,12 @@ then
 	sed -i "/NETPW/c\NETPW=$WFPSK" /etc/yacam.conf
         WIFIRESTART=1
 	echo "      <p>WIFI Password Saved</p>"
+fi
+if [ "$WHIDDEN" != "$HIDDEN" ]
+then
+        sed -i "/HIDDEN/c\HIDDEN=$WHIDDEN" /etc/yacam.conf
+        WIFIRESTART=1
+        echo "      <p>Hidden SSID Saved</p>"
 fi
 
 NTPRESTART=0

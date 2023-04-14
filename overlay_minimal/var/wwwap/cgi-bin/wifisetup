@@ -3,6 +3,18 @@
 set -a
 . /etc/yacam.conf
 VERSION=`cat /etc/VERSION`
+
+case $HIDDEN in
+        0)
+                HID0=' selected'
+                ;;
+        1)
+                HID1=' selected'
+                ;;
+        *)
+                ;;
+esac
+
 set +a
 
 envsubst < /var/wwwap/wwwtpl/WifiSetup.tpl

@@ -27,6 +27,13 @@ Content-type: text/html
               <td style='white-space:nowrap;align:left'>Wifi PSK:</td>
               <td><input type='text' name='WIFIPSK' value='$NETPW' placeholder=''></td>
             </tr>
+            <tr>
+              <td style='white-space:nowrap;align:left'>Hidden SSID:</td>
+              <td><select id='WHIDDEN' name='WHIDDEN'>
+                <option value='0'$HID0>Disabled</option>
+                <option value='1'$HID1>Enabled</option>
+	      </td>
+            </tr>
           </table>
           <p><button class='button bred' type='submit' name='SUBMIT'>Submit</button>
         </form>

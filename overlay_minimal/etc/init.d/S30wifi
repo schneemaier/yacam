@@ -20,9 +20,10 @@ case "$1" in
 	# Create wpa_supplicant.conf
 	echo "network={" > /tmp/wpa_supplicant.conf
 	echo "    ssid=\"$NETNAME\"" >> /tmp/wpa_supplicant.conf
-	echo "    priority=2" >> /tmp/wpa_supplicant.conf
+	echo "    priority=1" >> /tmp/wpa_supplicant.conf
 	echo "    key_mgmt=WPA-PSK" >> /tmp/wpa_supplicant.conf
 	echo "    psk=\"$NETPW\"" >> /tmp/wpa_supplicant.conf
+	echo "    mode=$HIDDEN" >> /tmp/wpa_supplicant.conf
 	echo "}" >> /tmp/wpa_supplicant.conf
 
 	wpa_supplicant -P /tmp/wpa.pid -Dnl80211 -i wlan0 -c "/tmp/wpa_supplicant.conf" -B -d -f /var/log/wpa_supplicant.log

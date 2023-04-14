@@ -21,6 +21,8 @@ NM0=''
 NM1=''
 NRS0=''
 NRS1=''
+HID0=''
+HID1=''
 case $TIME_LOCATION in
 	0)
 		NTIME0=' selected'
@@ -107,7 +109,16 @@ case $ENABLE_SUB_RTSP in
         *)
                 ;;
 esac
-
+case $HIDDEN in
+        0)
+                HID0=' selected'
+                ;;
+        1)
+                HID1=' selected'
+                ;;
+        *)
+                ;;
+esac
 
 set +a
 
