@@ -92,8 +92,8 @@ cp $OUTFILE2 $RELEASE_DIR/demo.yacam.$NOW.bin
 echo "Firmware created: $RELEASE_DIR/demo.bin"
 
 echo "Creating OTA file"
-tar -cvf $RELEASE_DIR/demo_ota.tar $KERNEL $SQUASHFSROOTIMG
-mv $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.$NOW.tar
+tar -cvf $RELEASE_DIR/demo_ota.tar -C $IMAGES uImage.lzma rootfs.squashfs
+cp $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.$NOW.tar
 
 cat << EOF
 

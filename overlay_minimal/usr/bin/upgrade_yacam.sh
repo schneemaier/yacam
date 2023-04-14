@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/bin/sh
 
-function do_flash {
+do_flash() {
 	# $1 = path to file (/tmp/rootfs.jffs2)
 	# $2 = MTD device number (0, 1, 2)
 	if [[ ! -n $1 || ! -n $2 ]]; then
@@ -31,15 +31,12 @@ if [[ $# -eq 0 ]] ; then
     echo './upgrade_yacam.sh <GIT_TAG>'
     exit 1
 fi
-
 read -p "Are you sure you want to flash new firmware? " -n 1 -r
 echo    # (optional) move to a new line
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
-	# handle exits from shell or function but don't exit interactive shell
-    [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
+	exit 1
 fi
-
 
 GIT_TAG="$1"
 
@@ -51,33 +48,41 @@ echo "Services stopped."
 cd /tmp
 
 echo -e "\nDownloading updated images from GitHub..."
-curl -fL https://github.com/schneemaier/yacam/releases/download/$GIT_TAG/demoOTA.tar -o /tmp/demoOTA.tar
+curl -fL https://github.com/schneemaier/yacam/releases/download/$GIT_TAG/demo_ota.tar -o /tmp/demo_ota.tar
 if [[ $? -ne 0 ]]; then
 	echo "Failed to download YaCAM $GIT_TAG OTA from GitHub."
 	exit 1
 fi
-
-echo "Image downloaded successfully."
+tar -xvf /tmp/demo_ota.tar
+echo "Image downloaded and extracted successfully."
 
 # Doing a while loop here to use break in case of failure
 while true; do
+        echo -e "\nFlashing kernel image (uImage.lzma)"
+        # Flash uImage.lzma to /dev/mtd1
+        if do_flash /tmp/uImage.lzma 1; then
+                true
+        else
+                break
+        fi
+
 	echo -e "\nFlashing root file system (rootfs)"
-	# Flash rootfs.jffs2 to /dev/mtd2
-	if do_flash /tmp/rootfs.jffs2 2; then
+	# Flash rootfs.squashfs to /dev/mtd2
+	if do_flash /tmp/rootfs.squashfs 2; then
 		true
 	else
 		break
 	fi
 
-	echo -e "\nFlashing kernel image (uImage.lzma)"
-	# Flash uImage.lzma to /dev/mtd1
-	if do_flash /tmp/uImage.lzma 1; then
-		true
-	else
-		break
-	fi
-	
 	echo -e "\nYaCAM image flashed successfully. Reboot is required.\n"
+	read -p "Do you want to reboot? " -n 1 -r
+	echo    # (optional) move to a new line
+	if [[ $REPLY =~ ^[Yy]$ ]]
+	then
+		reboot
+	fi
+
+	reboot
 	exit 0
 done
 
