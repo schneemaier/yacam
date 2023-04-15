@@ -75,7 +75,11 @@ start_capture() {
 	modprobe v4l2loopback devices=$DEVICE_COUNT
 
 	logger -s "Starting video frame capture process"
-	/usr/bin/videocapture /tmp/videocapture_settings.json >> /var/log/videocapture.log 2>&1 &
+	if [ "$ENABLE_LOGGING" == "1" ]; then
+		/usr/bin/videocapture /tmp/videocapture_settings.json >> /var/log/videocapture.log 2>&1 &
+	else
+		/usr/bin/videocapture /tmp/videocapture_settings.json > /dev/null 2>&1 &
+	fi
 	echo $! > /tmp/videocapture.pid
 	sleep 10
 

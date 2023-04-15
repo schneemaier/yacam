@@ -4,7 +4,15 @@
 #
 
 start() {
-	printf "Starting logging: "
+	. /etc/yacam.conf
+	if [ "$ENABLE_LOGGING" == "0" ]
+	then
+		printf "Logging disabled "
+		rm -r /tmp/logrotate.d
+	else
+		printf "Start logging: "
+		cp -r /etc/logrotate.d /tmp
+	fi
 	start-stop-daemon -b -S -q -m -p /tmp/syslogd.pid --exec /sbin/syslogd -- -n
 	start-stop-daemon -b -S -q -m -p /tmp/klogd.pid --exec /sbin/klogd -- -n
 	echo "OK"

@@ -4,8 +4,14 @@
 #
 
 start() {
+	. /etc/yacam.conf
+
+	LOG_LEVEL=4
+	if [ "$ENABLE_LOGGING" == "0" ]; then
+		LOG_LEVEL=8
+	fi
 	printf "Starting crond: "
-	start-stop-daemon -b -S -q -m -p /tmp/crond.pid --exec /usr/sbin/crond -- -l 4
+	start-stop-daemon -b -S -q -m -p /tmp/crond.pid --exec /usr/sbin/crond -- -l ${LOG_LEVEL}
 	echo "OK"
 }
 
