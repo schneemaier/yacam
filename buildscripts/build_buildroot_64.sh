@@ -40,7 +40,7 @@ cp -r /src/custompackages/package/* /yacam/build/buildroot-2016.02/package/
 # The linux configuration is set inside the ingenic_t20_defconfig
 # using BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE
 
-cp /src/config/ingenic_t20_defconfig configs/
+cp /src/config/ingenic_t20_64_defconfig configs/
 cp /src/config/busybox.config package/busybox
 cp /src/config/uClibc-ng.config package/uclibc
 
@@ -52,17 +52,17 @@ cp /src/kernel_sources/kernel-3.10.14.tar.xz dl/
 
 
 # Loads up our custom configuration
-make ingenic_t20_defconfig
+make ingenic_t20_64_defconfig
 
 # We just loaded it but these commands are how you save it back (here for reference)
 # Technically should be a no-op
-make savedefconfig BR2_DEFCONFIG=/src/config/ingenic_t20_defconfig
+make savedefconfig BR2_DEFCONFIG=/src/config/ingenic_t20_64_defconfig
 # make linux-update-defconfig
 
 # Start the build process
 cd /yacam/build/buildroot-2016.02
 
-export SET64=0
 # make sqlite
+export SET64=1
 make
 

@@ -31,3 +31,16 @@ cd /src
 GIT_REVISION=$(git rev-parse --quiet --short HEAD)
 
 echo $GIT_REVISION > $TARGET_DIR/etc/VERSION
+
+echo "SET64="$SET64
+
+if [[ "$SET64" -eq "1" ]]
+then
+	echo "64MB"
+	#cp /src/external_moduls/8189fs.ko "${TARGET_DIR}/lib/modules/3.10.14/kernel/drivers/net/wireless/rtl818x/rtl8189FS/"
+	sed -i "/MAIN_X_RES/c\MAIN_X_RES=1280" $TARGET_DIR/etc/yacam.conf
+	sed -i "/MAIN_Y_RES/c\MAIN_Y_RES=720" $TARGET_DIR/etc/yacam.conf
+else
+        sed -i "/MAIN_X_RES/c\MAIN_X_RES=1920" $TARGET_DIR/etc/yacam.conf
+        sed -i "/MAIN_Y_RES/c\MAIN_Y_RES=1080" $TARGET_DIR/etc/yacam.conf
+fi

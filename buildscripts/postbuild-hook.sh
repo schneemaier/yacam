@@ -93,7 +93,17 @@ echo "Firmware created: $RELEASE_DIR/demo.bin"
 
 echo "Creating OTA file"
 tar -cvf $RELEASE_DIR/demo_ota.tar -C $IMAGES uImage.lzma rootfs.squashfs
-cp $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.$NOW.tar
+if [ $SET64 -eq 0 ]; then
+	cp $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.128.$NOW.tar
+	mv $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.128.tar 
+	mv $RELEASE_DIR/demo.yacam.$NOW.bin $RELEASE_DIR/demo.yacam.128.$NOW.bin
+else
+        cp $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.64.$NOW.tar
+        mv $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.64.tar
+	mv $RELEASE_DIR/demo.yacam.$NOW.bin $RELEASE_DIR/demo.yacam.64.$NOW.bin
+fi
+
+echo "SET64="$SET64
 
 cat << EOF
 
