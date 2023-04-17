@@ -140,6 +140,7 @@ mkdir /rom
 mount -t squashfs /dev/mtdblock2 /rom
 mkdir /config
 mount -t jffs2 /dev/mtdblock3 /config
+mkdir -p /config/overlay
 mkdir /newroot
 mount -t overlayfs -o lowerdir=/rom,upperdir=/config/overlay overlayfs /newroot
 
