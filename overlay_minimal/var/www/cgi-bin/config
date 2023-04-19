@@ -23,6 +23,8 @@ NRS0=''
 NRS1=''
 HID0=''
 HID1=''
+NAU0=''
+NAU1=''
 case $TIME_LOCATION in
 	0)
 		NTIME0=' selected'
@@ -115,6 +117,16 @@ case $HIDDEN in
                 ;;
         1)
                 HID1=' selected'
+                ;;
+        *)
+                ;;
+esac
+case $ENABLE_AUTH in
+        0)
+                NAU0=' selected'
+                ;;
+        1)
+                NAU1=' selected'
                 ;;
         *)
                 ;;

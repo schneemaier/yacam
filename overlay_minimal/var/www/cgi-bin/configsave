@@ -18,6 +18,9 @@ NTIME_24=`httpd -d $NTIME_24`
 NENABLE_MAIN_RTSP=`httpd -d $NENABLE_MAIN_RTSP`
 NENABLE_MJPEG=`httpd -d $NENABLE_MJPEG`
 NENABLE_SUB_RTSP=`httpd -d $NENABLE_SUB_RTSP`
+NENABLE_AUTH=`httpd -d $NENABLE_AUTH`
+NUSERNAME=`httpd -d $NUSERNAME`
+NPASSWORD=`httpd -d $NPASSWORD`
 
 echo "Content-type: text/html"
 echo ""
@@ -119,10 +122,30 @@ MJPEGRESTART=0
 if [ "$NENABLE_MJPEG" != "$ENABLE_MJPEG" ]
 then
         sed -i "/ENABLE_MJPEG/c\ENABLE_MJPEG=$NENABLE_MJPEG" /etc/yacam.conf
-        RTSPRESTART=1
+        MJPEGSTART=1
         echo "      <p>MJPEG updated</p>"
 fi
-
+if [ "$NENABLE_AUTH" != "$ENABLE_AUTH" ]
+then
+        sed -i "/ENABLE_AUTH/c\ENABLE_AUTH=$NENABLE_AUTH" /etc/yacam.conf
+        RTSPRESTART=1
+	MJPEGSTART=1
+        echo "      <p>AUTH updated</p>"
+fi
+if [ "$NUSERNAME" != "$USERNAME" ]
+then
+        sed -i "/USERNAME/c\USERNAME=$NUSERNAME" /etc/yacam.conf
+        RTSPRESTART=1
+        MJPEGSTART=1
+        echo "      <p>USERNAME updated</p>"
+fi
+if [ "$NPASSWORD" != "$PASSWORD" ]
+then
+        sed -i "/PASSWORD/c\PASSWORD=$NPASSWORD" /etc/yacam.conf
+        RTSPRESTART=1
+        MJPEGSTART=1
+        echo "      <p>PASSWORD updated</p>"
+fi
 echo "      <p>Settings saved! Restarting services</p>"
 sleep 1
 

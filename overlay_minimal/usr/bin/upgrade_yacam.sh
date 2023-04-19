@@ -1,5 +1,7 @@
 #!/bin/sh
 
+OTAFILE=demo_ota.128.tar
+
 do_flash() {
 	# $1 = path to file (/tmp/rootfs.jffs2)
 	# $2 = MTD device number (0, 1, 2)
@@ -48,7 +50,7 @@ echo "Services stopped."
 cd /tmp
 
 echo -e "\nDownloading updated images from GitHub..."
-curl -fL https://github.com/schneemaier/yacam/releases/download/$GIT_TAG/demo_ota.tar -o /tmp/demo_ota.tar
+curl -fL https://github.com/schneemaier/yacam/releases/download/$GIT_TAG/$OTAFILE -o /tmp/demo_ota.tar
 if [[ $? -ne 0 ]]; then
 	echo "Failed to download YaCAM $GIT_TAG OTA from GitHub."
 	exit 1

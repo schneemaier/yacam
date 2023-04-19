@@ -81,7 +81,6 @@ start_capture() {
 		/usr/bin/videocapture /tmp/videocapture_settings.json > /dev/null 2>&1 &
 	fi
 	echo $! > /tmp/videocapture.pid
-	sleep 10
 
         # Wait for the videocapture program to initialize the v4l2 device
         MAX_WAIT=5

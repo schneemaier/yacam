@@ -113,6 +113,22 @@ Content-type: text/html
                 <option value='1'$NRS1>Enabled</option>
               </select></td>
             </tr>
+
+            <tr>
+              <td style='white-space:nowrap;align:left'>Stream authentication:</td>
+              <td><select id='NENABLE_AUTH' name='NENABLE_AUTH'>
+                <option value='0'$NAU0>Disabled</option>
+                <option value='1'$NAU1>Enabled</option>
+              </select></td>
+            </tr>
+            <tr>
+              <td style='white-space:nowrap;align:left'>Username:</td>
+              <td><input type='text' name='NUSERNAME' value='$USERNAME' placeholder=''></td>
+            </tr>
+            <tr>
+              <td style='white-space:nowrap;align:left'>Password:</td>
+              <td><input type='text' name='NPASSWORD' value='$PASSWORD' placeholder=''></td>
+            </tr>
           </table>
           <p><button class='button bred' type='submit' name='SUBMIT'>Submit</button>
         </form>
