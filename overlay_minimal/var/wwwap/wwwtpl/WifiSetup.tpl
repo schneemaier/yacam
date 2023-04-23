@@ -34,6 +34,13 @@ Content-type: text/html
                 <option value='1'$HID1>Enabled</option>
 	      </td>
             </tr>
+            <tr>
+              <td style='white-space:nowrap;align:left'>Use Assigned MAC:</td>
+              <td><select id='WWIFIMAC' name='WWIFIMAC'>
+                <option value='0'$WMC0>Disabled</option>
+                <option value='1'$WMC1>Enabled</option>
+              </td>
+            </tr>
           </table>
           <p><button class='button bred' type='submit' name='SUBMIT'>Submit</button>
         </form>

@@ -3,6 +3,7 @@
 set -a
 . /etc/yacam.conf
 VERSION=`cat /etc/VERSION`
+MAC=`cat /sys/class/net/wlan0/address`
 NTIME0=''
 NTIME1=''
 NTIME2=''
@@ -25,6 +26,16 @@ HID0=''
 HID1=''
 NAU0=''
 NAU1=''
+WMC0=''
+WMC1=''
+case $WIFI_MAC in
+	0)
+		WMC0=' selected'
+		;;
+	1)
+		WMC1=' selected'
+		;;
+esac
 case $TIME_LOCATION in
 	0)
 		NTIME0=' selected'

@@ -12,7 +12,7 @@
 case "$1" in
 	start|"")
 		# check for read only file system
-		if ! touch /etc/random-seed 2>/dev/null
+		if ! touch /tmp/random-seed 2>/dev/null
 		then
 			echo "read-only file system detected...done"
 			exit
@@ -23,16 +23,16 @@ case "$1" in
 		fi
 		# Load and then save 512 bytes,
 		# which is the size of the entropy pool
-		cat /etc/random-seed >/dev/urandom
-		rm -f /etc/random-seed
+		cat /tmp/random-seed >/dev/urandom
+		rm -f /tmp/random-seed
 		umask 077
-		dd if=/dev/urandom of=/etc/random-seed count=1 \
+		dd if=/dev/urandom of=/tmp/random-seed count=1 \
 			>/dev/null 2>&1 || echo "urandom start: failed."
 		umask 022
 		[ "$VERBOSE" != no ] && echo "done."
 		;;
 	stop)
-		if ! touch /etc/random-seed 2>/dev/null
+		if ! touch /tmp/random-seed 2>/dev/null
                 then
                         exit
                 fi
@@ -40,7 +40,7 @@ case "$1" in
 		# see documentation in linux/drivers/char/random.c
 		[ "$VERBOSE" != no ] && printf "Saving random seed... "
 		umask 077
-		dd if=/dev/urandom of=/etc/random-seed count=1 \
+		dd if=/dev/urandom of=/tmp/random-seed count=1 \
 			>/dev/null 2>&1 || echo "urandom stop: failed."
 		[ "$VERBOSE" != no ] && echo "done."
 		;;

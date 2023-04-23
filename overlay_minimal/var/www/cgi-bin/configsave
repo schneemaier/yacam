@@ -21,6 +21,7 @@ NENABLE_SUB_RTSP=`httpd -d $NENABLE_SUB_RTSP`
 NENABLE_AUTH=`httpd -d $NENABLE_AUTH`
 NUSERNAME=`httpd -d $NUSERNAME`
 NPASSWORD=`httpd -d $NPASSWORD`
+WWIFIMAC=`httpd -d $WWIFIMAC`
 
 echo "Content-type: text/html"
 echo ""
@@ -58,6 +59,12 @@ then
         sed -i "/HIDDEN/c\HIDDEN=$WHIDDEN" /etc/yacam.conf
         WIFIRESTART=1
         echo "      <p>Hidden SSID Saved</p>"
+fi
+if [ "$WWIFIMAC" != "$WIFI_MAC" ]
+then
+        sed -i "/WIFI_MAC/c\WIFI_MAC=$WWIFIMAC" /etc/yacam.conf
+        WIFIRESTART=1
+        echo "      <p>WIFI MAC Saved</p>"
 fi
 
 NTPRESTART=0

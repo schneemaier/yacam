@@ -10,7 +10,7 @@ SWAPFILE=/sdcard/swapfile
 case "$1" in
   start)
 
-	if [[ "$ENABLE_SWAP" -ne "1" ]]; then
+	if [ "$ENABLE_SWAP" != "1" ]; then
 		echo "ENABLE_SWAP is 0. Not starting swap."
 		exit 0
 	fi

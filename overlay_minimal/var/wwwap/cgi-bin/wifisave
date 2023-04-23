@@ -8,9 +8,11 @@ eval $(echo "$QUERY_STRING"|awk -F'&' '{for(i=1;i<=NF;i++){print $i}}')
 WFNAME=`httpd -d $WIFINAME`
 WFPSK=`httpd -d $WIFIPSK`
 WHIDDEN=`httpd -d $WHIDDEN`
+WWIFIMAC=`httpd -d $WWIFIMAC`
 sed -i "/NETNAME/c\NETNAME=$WFNAME" /etc/yacam.conf
 sed -i "/NETPW/c\NETPW=$WFPSK" /etc/yacam.conf
 sed -i "/HIDDEN/c\HIDDEN=$WHIDDEN" /etc/yacam.conf
+sed -i "/WIFI_MAC/c\WIFI_MAC=$WWIFMAC" /etc/yacam.conf
 
 echo "Settings saved! Rebooting"
 reboot

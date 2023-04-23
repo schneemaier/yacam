@@ -12,6 +12,7 @@ Content-type: text/html
     <div style='text-align:left;display:inline-block;color:#000000;min-width:340px;'>
       <h1>YaCAM Setup</h1>
       <p>Version: $VERSION<p>
+      <p>MAC Address: $MAC<p>
       <p></p>
       <div></div>
       <p></p>
@@ -39,6 +40,13 @@ Content-type: text/html
               <td><select id='WHIDDEN' name='WHIDDEN'>
                 <option value='0'$HID0>Disabled</option>
                 <option value='1'$HID1>Enabled</option>
+              </td>
+            </tr>
+            <tr>
+              <td style='white-space:nowrap;align:left'>Use Assigned MAC:</td>
+              <td><select id='WWIFIMAC' name='WWIFIMAC'>
+                <option value='0'$WMC0>Disabled</option>
+                <option value='1'$WMC1>Enabled</option>
               </td>
             </tr>
             <tr>

@@ -4,6 +4,7 @@
 
 case "$1" in
   start)
+	echo "GPIO setup start"
 	. /usr/bin/libgpio.sh
 	gpio_select_gpiochip 0
 

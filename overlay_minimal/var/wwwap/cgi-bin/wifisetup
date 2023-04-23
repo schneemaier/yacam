@@ -14,6 +14,16 @@ case $HIDDEN in
         *)
                 ;;
 esac
+case $WIFI_MAC in
+        0)
+                WMC0=' selected'
+                ;;
+        1)
+                WMC1=' selected'
+                ;;
+        *)
+                ;;
+esac
 
 set +a
 
