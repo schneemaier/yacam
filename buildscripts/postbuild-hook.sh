@@ -26,7 +26,7 @@ NOW=`date +'%Y-%m-%d_%H_%M_%S'`
 
 # Copy the kernel image and bootloader to releases
 cp $IMAGES/uImage.lzma $RELEASE_DIR
-cp $IMAGES/u-boot-lzo-with-spl.bin $RELEASE_DIR
+#cp $IMAGES/u-boot-lzo-with-spl.bin $RELEASE_DIR
 
 
 MKIMAGE=/yacam/build/buildroot-2016.02/output/build/uboot-openmiko/tools/mkimage
@@ -95,10 +95,12 @@ echo "Creating OTA file"
 tar -cvf $RELEASE_DIR/demo_ota.tar -C $IMAGES uImage.lzma rootfs.squashfs
 if [ $SET64 -eq 0 ]; then
 	cp $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.128.$NOW.tar
+	cp $RELEASE_DIR/demo.bin $RELEASE_DIR/demo.128.bin
 	mv $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.128.tar 
 	mv $RELEASE_DIR/demo.yacam.$NOW.bin $RELEASE_DIR/demo.yacam.128.$NOW.bin
 else
         cp $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.64.$NOW.tar
+	cp $RELEASE_DIR/demo.bin $RELEASE_DIR/demo.64.bin
         mv $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.64.tar
 	mv $RELEASE_DIR/demo.yacam.$NOW.bin $RELEASE_DIR/demo.yacam.64.$NOW.bin
 fi

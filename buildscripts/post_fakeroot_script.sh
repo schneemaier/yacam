@@ -34,7 +34,7 @@ echo $GIT_REVISION > $TARGET_DIR/etc/VERSION
 if [[ "$SET64" -eq "1" ]]
 then
 	echo "64MB"
-	cp /src/external_moduls/8189fs.ko "${TARGET_DIR}/lib/modules/3.10.14/kernel/drivers/net/wireless/rtl818x/rtl8189FS/"
+	#cp /src/external_moduls/8189fs.ko "${TARGET_DIR}/lib/modules/3.10.14/kernel/drivers/net/wireless/rtl818x/rtl8189FS/"
 	sed -i "/MAIN_X_RES/c\MAIN_X_RES=1280" $TARGET_DIR/etc/yacam.conf
 	sed -i "/MAIN_Y_RES/c\MAIN_Y_RES=720" $TARGET_DIR/etc/yacam.conf
 	sed -i "/OTAFILE=/c\OTAFILE=demo_ota.64.tar" $TARGET_DIR/usr/bin/upgrade_yacam.sh

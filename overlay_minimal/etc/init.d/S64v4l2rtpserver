@@ -12,7 +12,7 @@ fi
 start_v4l2rtsp() {
         if [[ -f /tmp/ap.conf ]]
         then
-                echo "AP Mode"
+                echo "AP Mode Not Starting"
                 exit
         fi
 	AUTH_PARAMS=""

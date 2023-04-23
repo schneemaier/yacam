@@ -1815,6 +1815,7 @@ CONFIG_EARLY_PRINTK=y
 CONFIG_CMDLINE_BOOL=y
 #CONFIG_CMDLINE="console=tty0 console=ttyS1,115200n8 mem=41M@0x0 ispmem=5M@0x2900000 rmem=18M@0x2E00000 init=/linuxrc rootfstype=squashfs root=/dev/mtdblock2 rw mtdparts=jz_sfc:256k(boot),2048k(kernel),13504k(root),256k(config),256k(para),-(flag)"
 CONFIG_CMDLINE="console=tty0 console=ttyS1,115200n8 mem=39M@0x0 ispmem=5M@0x2700000 rmem=20M@0x2C00000 init=/linuxrc rootfstype=squashfs root=/dev/mtdblock2 rw mtdparts=jz_sfc:256k(boot),2048k(kernel),13504k(root),256k(config),256k(para),-(flag)"
+#CONFIG_CMDLINE="console=tty0 console=ttyS1,115200n8 mem=41700K@0x0 ispmem=8M@0x28B9000 rmem=15644K@0x30B9000 init=/linuxrc rootfstype=squashfs root=/dev/mtdblock2 rw mtdparts=jz_sfc:256k(boot),2048k(kernel),13504k(root),256k(config),256k(para),-(flag)"
 CONFIG_CMDLINE_OVERRIDE=y
 CONFIG_DEBUG_STACKOVERFLOW=y
 # CONFIG_RUNTIME_DEBUG is not set

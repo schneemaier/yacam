@@ -6,4 +6,19 @@ VERSION=`cat /etc/VERSION`
 
 set +a
 
-envsubst < /var/www/wwwtpl/Firmware.tpl
+#envsubst < /var/www/wwwtpl/Firmware.tpl
+
+echo "Content-type: text/html"
+echo
+echo "<!DOCTYPE html>"
+echo "<html lang='en' class=''>"
+echo "  <head>"
+echo "    <title>YaCAM Firmware</title>"
+echo "  </head>"
+echo "  <body>"
+echo "     <form action=/cgi-bin/firmwaresave method=post enctype=multipart/form-data>"
+echo "       File to upload: <input type=file name=file1> <input type=submit>"
+echo "     </form>"
+echo "  </body>"
+echo "</html>"
+

@@ -7,7 +7,7 @@ case "$1" in
   start)
 	if [[ -f /tmp/ap.conf ]]
 	then
-		echo "AP Mode"
+		echo "AP Mode Not Starting"
 		exit
 	fi
         if [[ -f /etc/yacam.conf ]]; then

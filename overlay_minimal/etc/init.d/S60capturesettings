@@ -6,7 +6,7 @@ start_settings() {
 	# If running in AP mode then not starting the camera
         if [[ -f /tmp/ap.conf ]]
         then
-                echo "AP Mode not starting"
+                echo "AP Mode Not Starting"
                 exit
         fi
         if [[ -f /tmp/videocapture.pid ]]
