@@ -61,7 +61,7 @@ Content-type: text/html
               <td style='white-space:nowrap;align:left'><h3>Webadmin settings</h3></td>
             </tr>
             <tr>
-              <td style='white-space:nowrap;align:left'>Flip video verticaly:</td>
+              <td style='white-space:nowrap;align:left'>Enable web password:</td>
               <td><select id='NHTTPPROT' name='NHTTPPROT'>
                 <option value='0'$NHP0>Disabled</option>
                 <option value='1'$NHP1>Enabled</option>
@@ -116,7 +116,7 @@ Content-type: text/html
               </select></td>
             </tr>
             <tr>
-              <td style='white-space:nowrap;align:left'>Enable timestamp:</td>
+              <td style='white-space:nowrap;align:left'>Enable autonight:</td>
               <td><select id='NAUTONIGHT' name='NAUTONIGHT'>
                 <option value='0'$NAN0>Disabled</option>
                 <option value='1'$NAN1>Enabled</option>
