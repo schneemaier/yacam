@@ -11,15 +11,23 @@ start() {
                 echo "AP Mode"
                 httpd -h /var/wwwap -p 80 -v
         else
+		. /etc/yacam.conf
+		PARAM=""
+		if [ "$HTTPPROT" == "1" ]
+		then
+			echo "/:$HTTPUSER:"`httpd -m $HTTPPWD` > /tmp/httpd.conf
+			PARAM=" -c /tmp/httpd.conf"
+		fi
                 # Normal mode
                 echo "Normal Mode"
-                httpd -h /var/www -p 80 -v
+                httpd -h /var/www -p 80 -v $PARAM
         fi
         echo "OK"
 }
 stop() {
         echo "Stopping busybox httpd server..."
         killall httpd
+	rm /tmp/httpd.conf
         echo "Done"
 }
 restart() {

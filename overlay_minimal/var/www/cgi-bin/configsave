@@ -22,6 +22,10 @@ NENABLE_AUTH=`httpd -d $NENABLE_AUTH`
 NUSERNAME=`httpd -d $NUSERNAME`
 NPASSWORD=`httpd -d $NPASSWORD`
 WWIFIMAC=`httpd -d $WWIFIMAC`
+NHTTPPROT=`httpd -d $NHTTPPROT`
+NHTTPPWD=`httpd -d $NHTTPPWD`
+NHTTPUSER=`httpd -d $NHTTPUSER`
+NAUTONIGHT=`httpd -d $NAUTONIGHT`
 
 echo "Content-type: text/html"
 echo ""
@@ -81,6 +85,25 @@ then
         echo "      <p>Timezone saved</p>"
 fi
 
+HTTPRESTART=0
+if [ "$NHTTPPROT" != "$HTTPPROT" ]
+then
+        sed -i "/HTTPPROT/c\HTTPPROT=$HTTPPROT" /etc/yacam.conf
+        HTTPRESTART=1
+        echo "      <p>HTTP Server saved</p>"
+fi
+if [ "$NHTTPUSER" != "$HTTPUSER" ]
+then
+        sed -i "/HTTPUSER/c\HTTPUSER=$NHTTPUSER" /etc/yacam.conf
+        HTTPRESTART=1
+        echo "      <p>Admin USERNAME updated</p>"
+fi
+if [ "$NHTTPPWD" != "$HTTPPWD" ]
+then
+        sed -i "/HTTPPWD/c\HTTPPWD=$NHTTPPWD" /etc/yacam.conf
+        HTTPRESTART=1
+        echo "      <p>Admin PASSWORD updated</p>"
+fi
 CAPTURERESTART=0
 if [ "$NFLIP_VERTICAL" != "$FLIP_VERTICAL" ]
 then
@@ -153,6 +176,13 @@ then
         MJPEGSTART=1
         echo "      <p>PASSWORD updated</p>"
 fi
+NIGHTRESTART=0
+if [ "$NAUTONIGHT" != "$ENABLE_AUTONIGHT" ]
+then
+        sed -i "/ENABLE_AUTONIGHT/c\ENABLE_AUTONIGHT=$NAUTONIGHT" /etc/yacam.conf
+        NIGHTRESTART=1
+        echo "      <p>AUTONIGHT updated</p>"
+fi
 echo "      <p>Settings saved! Restarting services</p>"
 sleep 1
 
@@ -168,9 +198,15 @@ then
         /etc/init.d/S45ntpd restart > /dev/null
         echo " Done!</p>"
 fi
+if [ "$HTTPRESTART" = "1" ]
+then
+	echo "      <p>Restaring HTTPD!"
+	/etc/init.d/S50httpd restart > /dev/null
+	echo " Done!</p>"
+fi
 if [ "$CAPTURERESTART" = "1" ]
 then
-        echo "      <p>Restaring Capture!</p>"
+        echo "      <p>Restaring Capture!"
         /etc/init.d/S62capture stop > /dev/null
 	/etc/init.d/S60capturesettings restart > /dev/null
 	/etc/init.d/S62capture start > /dev/null
@@ -178,7 +214,7 @@ then
 fi
 if [ "$RTSPRESTART" = "1" ]
 then
-        echo "      <p>Restaring RTSP!</p>"
+        echo "      <p>Restaring RTSP!"
         /etc/init.d/S64v4l2rtpserver restart > /dev/null
         echo " Done!</p>"
 
@@ -188,7 +224,12 @@ then
         echo       "<p>Restaring MJPEG!"
         /etc/init.d/S66mjpg_streamer restart > /dev/null
         echo " Done!</p>"
-
+fi
+if [ "$NIGHTRESTART" = "1" ]
+then
+        echo       "<p>Restaring Autonight!"
+        /etc/init.d/S70autonight restart > /dev/null
+        echo " Done!</p>"
 fi
 
 echo "      <p>Returning to main page in a few seconds!</p>"

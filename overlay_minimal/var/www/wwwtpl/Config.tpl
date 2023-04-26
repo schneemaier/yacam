@@ -13,7 +13,7 @@ Content-type: text/html
       <h1>YaCAM Setup</h1>
       <p>Version: $VERSION<p>
       <p>MAC Address: $MAC<p>
-      <p></p>
+      <p><a href="/cgi-bin/firmware">Firmware update</a></p>
       <div></div>
       <p></p>
         <form action='/cgi-bin/configsave' method='POST'>
@@ -58,6 +58,24 @@ Content-type: text/html
               <td><input type='text' name='NTIMEZONE' value='$TIMEZONE' placeholder=''></td>
             </tr>
             <tr>
+              <td style='white-space:nowrap;align:left'><h3>Webadmin settings</h3></td>
+            </tr>
+            <tr>
+              <td style='white-space:nowrap;align:left'>Flip video verticaly:</td>
+              <td><select id='NHTTPPROT' name='NHTTPPROT'>
+                <option value='0'$NHP0>Disabled</option>
+                <option value='1'$NHP1>Enabled</option>
+              </select></td
+            </tr>
+            <tr>
+              <td style='white-space:nowrap;align:left'>Username:</td>
+              <td><input type='text' name='NHTTPUSER' value='$HTTPUSER' placeholder=''></td>
+            </tr>
+            <tr>
+              <td style='white-space:nowrap;align:left'>Password:</td>
+              <td><input type='text' name='NHTTPPWD' value='$HTTPPWD' placeholder=''></td>
+            </tr>
+            <tr>
               <td style='white-space:nowrap;align:left'><h3>Image Settings</h3></td>
             </tr>
             <tr>
@@ -96,6 +114,13 @@ Content-type: text/html
                 <option value='2'$NTIME2>Bottom Left</option>
                 <option value='3'$NTIME3>Bottom Right</option>
               </select></td>
+            </tr>
+            <tr>
+              <td style='white-space:nowrap;align:left'>Enable timestamp:</td>
+              <td><select id='NAUTONIGHT' name='NAUTONIGHT'>
+                <option value='0'$NAN0>Disabled</option>
+                <option value='1'$NAN1>Enabled</option>
+              </select></td
             </tr>
             <tr>
               <td style='white-space:nowrap;align:left'><h3>Enabled Streams</h3></td>

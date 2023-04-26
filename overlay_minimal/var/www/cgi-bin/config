@@ -28,6 +28,26 @@ NAU0=''
 NAU1=''
 WMC0=''
 WMC1=''
+NHP0=''
+NHP1=''
+NAN0=''
+NAN1=''
+case $ENABLE_AUTONIGHT in
+        0)
+                NAN0=' selected'
+                ;;
+        1)
+                NAN1=' selected'
+                ;;
+esac
+case $HTTPPROT in
+        0)
+                NHP0=' selected'
+                ;;
+        1)
+                NHP1=' selected'
+                ;;
+esac
 case $WIFI_MAC in
 	0)
 		WMC0=' selected'

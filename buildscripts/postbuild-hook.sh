@@ -93,17 +93,32 @@ echo "Firmware created: $RELEASE_DIR/demo.bin"
 
 echo "Creating OTA file"
 tar -cvf $RELEASE_DIR/demo_ota.tar -C $IMAGES uImage.lzma rootfs.squashfs
-if [ $SET64 -eq 0 ]; then
-	cp $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.128.$NOW.tar
-	cp $RELEASE_DIR/demo.bin $RELEASE_DIR/demo.128.bin
-	mv $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.128.tar 
-	mv $RELEASE_DIR/demo.yacam.$NOW.bin $RELEASE_DIR/demo.yacam.128.$NOW.bin
-else
-        cp $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.64.$NOW.tar
-	cp $RELEASE_DIR/demo.bin $RELEASE_DIR/demo.64.bin
-        mv $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.64.tar
-	mv $RELEASE_DIR/demo.yacam.$NOW.bin $RELEASE_DIR/demo.yacam.64.$NOW.bin
-fi
+
+FINAL=$NET$SET64
+
+case $FINAL in
+	'ES0')
+	        cp $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.pan.$NOW.tar
+	        mv $RELEASE_DIR/demo.bin $RELEASE_DIR/demo.pan.bin
+	        mv $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.pan.tar 
+	        mv $RELEASE_DIR/demo.yacam.$NOW.bin $RELEASE_DIR/demo.yacam.pan.$NOW.bin
+		;;
+        'FS0')
+                cp $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.128.$NOW.tar
+                mv $RELEASE_DIR/demo.bin $RELEASE_DIR/demo.128.bin
+                mv $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.128.tar 
+                mv $RELEASE_DIR/demo.yacam.$NOW.bin $RELEASE_DIR/demo.yacam.128.$NOW.bin
+		;;
+        'FS1')
+                cp $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.64.$NOW.tar
+                mv $RELEASE_DIR/demo.bin $RELEASE_DIR/demo.64.bin
+                mv $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.64.tar 
+                mv $RELEASE_DIR/demo.yacam.$NOW.bin $RELEASE_DIR/demo.yacam.64.$NOW.bin
+		;;
+	*)
+		echo "Illegal"
+		;;
+esac
 
 echo "SET64="$SET64
 

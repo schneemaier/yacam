@@ -44,3 +44,12 @@ else
 	sed -i "/MAIN_Y_RES/c\MAIN_Y_RES=1080" $TARGET_DIR/etc/yacam.conf
 	sed -i "/OTAFILE=/c\OTAFILE=demo_ota.128.tar" $TARGET_DIR/usr/bin/upgrade_yacam.sh
 fi
+
+if [[ "$NET" -eq "FS" ]]
+then
+	sed -i "/WIFI_MODULE/c\WIFI_MODULE=8189fs" $TARGET_DIR/etc/yacam.conf
+else
+	sed -i "/WIFI_MODULE/c\WIFI_MODULE=8189es" $TARGET_DIR/etc/yacam.conf
+	sed -i "/OTAFILE=/c\OTAFILE=demo_ota.pan.tar" $TARGET_DIR/usr/bin/upgrade_yacam.sh
+fi
+

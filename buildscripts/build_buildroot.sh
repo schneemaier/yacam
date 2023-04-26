@@ -1,6 +1,29 @@
 #!/bin/bash
 set -e
 
+case $1 in
+  '64')
+    # Xiaofang 1S 64M
+    export SET64=1
+    export NET="FS"
+    ;;
+  'PAN')
+    # Wyze Pan V1
+    export SET64=0
+    export NET='ES'
+    ;;
+  '128')
+    # Wyze V2
+    export SET64=0
+    export NET='FS'
+    ;;
+  *)
+    # Wyze V2
+    export SET64=0
+    export NET='FS'
+    ;;
+esac
+
 # This script is expected to be run inside the development container
 # It copies from /src files that have been changed for buildroot purposes
 
@@ -26,7 +49,6 @@ rm -rf /yacam/build/buildroot-2016.02/package/wpa_supplicant
 
 cp -r /src/custompackages/package/* /yacam/build/buildroot-2016.02/package/
 
-
 # Avoid FPU bug on XBurst CPUs
 #patch -p1 < /src/patches/add_fp_no_fused_madd.patch
 
@@ -40,7 +62,12 @@ cp -r /src/custompackages/package/* /yacam/build/buildroot-2016.02/package/
 # The linux configuration is set inside the ingenic_t20_defconfig
 # using BR2_LINUX_KERNEL_CUSTOM_CONFIG_FILE
 
-cp /src/config/ingenic_t20_defconfig configs/
+if [[ "$SET64" == "0" ]]
+then
+  cp /src/config/ingenic_t20_defconfig configs/
+else
+  cp /src/config/ingenic_t20_64_defconfig configs/
+fi
 cp /src/config/busybox.config package/busybox
 cp /src/config/uClibc-ng.config package/uclibc
 
@@ -49,20 +76,24 @@ cp /src/config/uClibc-ng.config package/uclibc
 mkdir -p dl
 cp /src/kernel_sources/kernel-3.10.14.tar.xz dl/
 
-
-
 # Loads up our custom configuration
-make ingenic_t20_defconfig
+if [[ "$SET64" == "0" ]]
+then
+  make ingenic_t20_defconfig
+else
+  make ingenic_t20_64_defconfig
+fi
 
 # We just loaded it but these commands are how you save it back (here for reference)
 # Technically should be a no-op
-make savedefconfig BR2_DEFCONFIG=/src/config/ingenic_t20_defconfig
+# make savedefconfig BR2_DEFCONFIG=/src/config/ingenic_t20_defconfig
 # make linux-update-defconfig
 
 # Start the build process
 cd /yacam/build/buildroot-2016.02
 
-export SET64=0
-# make sqlite
+echo "Set64="$SET64
+echo "Net="$NET
+
 make
 
