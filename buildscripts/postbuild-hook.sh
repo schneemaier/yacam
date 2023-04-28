@@ -120,7 +120,7 @@ case $FINAL in
 		;;
 esac
 
-echo "SET64="$SET64
+echo "FINAL="$FINAL
 
 cat << EOF
 

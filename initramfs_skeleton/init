@@ -107,26 +107,6 @@ upgrade_bootloader() {
 }
 upgrade_bootloader
 
-wipe_rootfs_mtd_partition() {
-	if [[ "$WIPE_ROOTFS" == "1" ]]; then
-		echo "Wiping /dev/mtd2 (rootfs partition)"
-		# Do a blue heartbeat
-		echo "none" > /sys/class/leds/led_blue/trigger
-		echo "none" > /sys/class/leds/led_yellow/trigger
-		echo "heartbeat" > /sys/class/leds/led_blue/trigger
-
-		umount /jffsroot
-		/bin/flash_eraseall /dev/mtd2
-
-		# Set leds back to yellow blink
-		echo "none" > /sys/class/leds/led_blue/trigger
-		echo "timer" > /sys/class/leds/led_yellow/trigger
-
-		echo "Wipe complete. Remove WIPE_ROOTFS flag and reflash the camera."
-	fi
-}
-wipe_rootfs_mtd_partition
-
 #unmount sdcard if mounted
 if [ -e /dev/mmcblk0p1 ]; then
   umount /sdcard
@@ -139,7 +119,7 @@ echo "Mounting real root filesystem...."
 mkdir /rom
 mount -t squashfs /dev/mtdblock2 /rom
 mkdir /config
-mount -t jffs2 /dev/mtdblock3 /config
+mount -t jffs2 /dev/mtdblock4 /config
 mkdir -p /config/overlay
 mkdir /newroot
 mount -t overlayfs -o lowerdir=/rom,upperdir=/config/overlay overlayfs /newroot
