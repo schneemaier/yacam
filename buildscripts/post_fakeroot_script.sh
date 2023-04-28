@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+export SET64=$2
+export NET=$3
 echo "Executing pre filesystem image creation script"
 
 # The environment variables BR2_CONFIG, HOST_DIR, STAGING_DIR,
@@ -31,7 +33,8 @@ GIT_REVISION=$(git rev-parse --quiet --short HEAD)
 
 echo $GIT_REVISION > $TARGET_DIR/etc/VERSION
 
-if [[ "$SET64" -eq "1" ]]
+echo "Set64="$SET64" NET="$NET
+if [ "$SET64" == "1" ]
 then
 	echo "64MB"
 	#cp /src/external_moduls/8189fs.ko "${TARGET_DIR}/lib/modules/3.10.14/kernel/drivers/net/wireless/rtl818x/rtl8189FS/"
@@ -45,10 +48,12 @@ else
 	sed -i "/OTAFILE=/c\OTAFILE=demo_ota.128.tar" $TARGET_DIR/usr/bin/upgrade_yacam.sh
 fi
 
-if [[ "$NET" -eq "FS" ]]
+if [ "$NET" == "FS" ]
 then
+	echo "FS"
 	sed -i "/WIFI_MODULE/c\WIFI_MODULE=8189fs" $TARGET_DIR/etc/yacam.conf
 else
+	echo "ES"
 	sed -i "/WIFI_MODULE/c\WIFI_MODULE=8189es" $TARGET_DIR/etc/yacam.conf
 	sed -i "/OTAFILE=/c\OTAFILE=demo_ota.pan.tar" $TARGET_DIR/usr/bin/upgrade_yacam.sh
 fi

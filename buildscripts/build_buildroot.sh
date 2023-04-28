@@ -10,17 +10,17 @@ case $1 in
   'PAN')
     # Wyze Pan V1
     export SET64=0
-    export NET='ES'
+    export NET="ES"
     ;;
   '128')
     # Wyze V2
     export SET64=0
-    export NET='FS'
+    export NET="FS"
     ;;
   *)
     # Wyze V2
     export SET64=0
-    export NET='FS'
+    export NET="FS"
     ;;
 esac
 

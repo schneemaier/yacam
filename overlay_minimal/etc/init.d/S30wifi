@@ -4,7 +4,7 @@
 #
 
 # Set default WIFI_MODULE
-WIFI_MODULE=8189fs
+# WIFI_MODULE=8189fs
 
 . /etc/yacam.conf
 
