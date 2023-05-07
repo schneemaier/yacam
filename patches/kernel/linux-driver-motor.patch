@@ -83,12 +83,11 @@ diff -Nura kernel-3.10.14/drivers/misc/motor/sample_motor/motor.c kernel-3.10.14
 +module_param(hmotor2vmotor, int, S_IRUGO);
 +MODULE_PARM_DESC(hmotor2vmotor, "The value is hmotor's speed / vmotor's");
 +
-+
-+static unsigned int hmaxstep = 4300;
++static unsigned int hmaxstep = 2500; //in openmiko it was 4300
 +module_param(hmaxstep, int, S_IRUGO);
 +MODULE_PARM_DESC(hmaxstep, "The max steps of horizontal motor");
 +
-+static unsigned int vmaxstep = 300;
++static unsigned int vmaxstep = 600; //in  openmiko it was 300
 +module_param(vmaxstep, int, S_IRUGO);
 +MODULE_PARM_DESC(vmaxstep, "The max steps of vertical motor");
 +
