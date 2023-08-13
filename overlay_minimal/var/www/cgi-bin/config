@@ -32,12 +32,22 @@ NHP0=''
 NHP1=''
 NAN0=''
 NAN1=''
+NAL0=''
+NAL1=''
 case $ENABLE_AUTONIGHT in
         0)
                 NAN0=' selected'
                 ;;
         1)
                 NAN1=' selected'
+                ;;
+esac
+case $ENABLE_IR_LED in
+        0)
+                NAL0=' selected'
+                ;;
+        1)
+                NAL1=' selected'
                 ;;
 esac
 case $HTTPPROT in

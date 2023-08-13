@@ -123,6 +123,13 @@ Content-type: text/html
               </select></td
             </tr>
             <tr>
+              <td style='white-space:nowrap;align:left'>Enable IR LED:</td>
+              <td><select id='NIRLED' name='NIRLED'>
+                <option value='0'$NAL0>Disabled</option>
+                <option value='1'$NAL1>Enabled</option>
+              </select></td
+            </tr>
+            <tr>
               <td style='white-space:nowrap;align:left'><h3>Enabled Streams</h3></td>
             </tr>
             <tr>

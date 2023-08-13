@@ -26,7 +26,8 @@ NHTTPPROT=`httpd -d $NHTTPPROT`
 NHTTPPWD=`httpd -d $NHTTPPWD`
 NHTTPUSER=`httpd -d $NHTTPUSER`
 NAUTONIGHT=`httpd -d $NAUTONIGHT`
-
+NIRLED=`httpd -d $NIRLED`
+NHOSTNAME=`httpd -d $NHOSTNAME`
 echo "Content-type: text/html"
 echo ""
 echo "<!DOCTYPE html>"
@@ -45,6 +46,12 @@ echo "      <p> Saving settings<p>"
 echo "      <p></p>"
 echo "      <div></div>"
 
+if [ "$NHOSTNAME" != "$HOSTNAME" ]
+then
+	echo $NHOSTNAME > /tmp/hostname
+        sed -i "/HOSTNAME/c\HOSTNAME=$NHOSTNAME" /etc/yacam.conf
+        echo "      <p>HOSTNAME Saved</p>"
+fi
 WIFIRESTART=0
 if [ "$WFNAME" != "$NETNAME" ]
 then
@@ -76,7 +83,7 @@ if [ "$NNTPSERVER" != "$NTPSERVER" ]
 then
 	sed -i "/NTPSERVER/c\NTPSERVER=$NNTPSERVER" /etc/yacam.conf
 	NTPRESTART=1
-	echo "      <p>NTP Server saved</p>"
+	echo "      <p>NTP Server saved</p>"ű
 fi
 if [ "$NTIMEZONE" != "$TIMEZONE" ]
 then
@@ -182,6 +189,12 @@ then
         sed -i "/ENABLE_AUTONIGHT/c\ENABLE_AUTONIGHT=$NAUTONIGHT" /etc/yacam.conf
         NIGHTRESTART=1
         echo "      <p>AUTONIGHT updated</p>"
+fi
+if [ "$NIRLED" != "$ENABLE_IR_LED" ]
+then
+        sed -i "/ENABLE_IR_LED/c\ENABLE_IR_LED=$NIRLED" /etc/yacam.conf
+        NIGHTRESTART=1
+        echo "      <p>IR LED Updated updated</p>"
 fi
 echo "      <p>Settings saved! Restarting services</p>"
 sleep 1
