@@ -50,6 +50,7 @@ if [ "$NHOSTNAME" != "$HOSTNAME" ]
 then
 	echo $NHOSTNAME > /tmp/hostname
         sed -i "/HOSTNAME/c\HOSTNAME=$NHOSTNAME" /etc/yacam.conf
+	/bin/hostname -F /etc/hostname
         echo "      <p>HOSTNAME Saved</p>"
 fi
 WIFIRESTART=0

@@ -11,7 +11,6 @@ gpio_select_gpiochip 0
 
 SD_PARTITION=/dev/mmcblk0p1
 SD_FILESYSTEM=vfat
-YACAM_CONFIG_FILE=/sdcard/config/overlay/etc/yacam.conf
 
 logger -s -t general_init "Setting up SDCard access"
 
@@ -53,11 +52,6 @@ else
 	fi;
 fi;
 
-# Not sure why this is needed, will remove later
-if [[ -f $YACAM_CONFIG_FILE ]]; then
-	. $YACAM_CONFIG_FILE
-fi
-
 clear_config_partition() {
 	if [[ "$CLEAR_CONFIG_PARTITION" == "1" ]]; then
 		echo "Wiping /config"
@@ -73,5 +67,9 @@ then
 	cat /sdcard/yacam.conf >> /etc/yacam.conf
 	logger -s -t general_init "Config copied from sdcard"
 fi
+
+#Setup hostname
+. /etc/yacam.conf
+echo $HOSTNAME >> /tmp/hostname
 
 logger -s -t general_init "Genral Init done."
