@@ -71,6 +71,9 @@ case "$1" in
 		ip addr add 192.168.4.1/24 dev wlan0
 		# Start DHCP Server
 		udhcpd -I 192.168.4.1 /etc/dhcpservap.conf
+		# Create DNS to resolve everything to 192.168.4.1
+		echo "* 192.168.4.1" > /tmp/dnsd.conf
+		dnsd -d -c /tmp/dnsd.conf
 	else
 		logger -s "Using hostname: $HOSTNAME"
 		logger -s "Attempting DHCP"

@@ -47,6 +47,9 @@ rm -rf /yacam/build/buildroot-2016.02/package/logrotate
 
 rm -rf /yacam/build/buildroot-2016.02/package/wpa_supplicant
 
+#upgrading busybox
+rm -rf /yacam/build/buildroot-2016.02/package/busybox
+
 cp -r /src/custompackages/package/* /yacam/build/buildroot-2016.02/package/
 
 # Avoid FPU bug on XBurst CPUs
