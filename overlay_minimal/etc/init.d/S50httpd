@@ -9,7 +9,8 @@ start() {
         then
                 # AP mode
                 echo "AP Mode"
-                httpd -h /var/wwwap -p 80 -v
+		echo "E404:404.html" > /tmp/httpd.conf
+		httpd -h /var/wwwap -p 80 -v -c /tmp/httpd.conf
         else
 		. /etc/yacam.conf
 		PARAM=""

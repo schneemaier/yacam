@@ -58,15 +58,13 @@ case "$1" in
 		# Setup AP
 		APNAME="YaCAM"`cat /sys/class/net/wlan0/address | sed -r 's/[:]+//g'`
 		rm /tmp/wpa_supplicant.conf
-		echo "network={" > /tmp/ap.conf
-		echo "    ssid=\"$APNAME\"" >> /tmp/ap.conf
-		echo "    mode=2" >> /tmp/ap.conf
-		echo "    key_mgmt=NONE" >> /tmp/ap.conf
-		echo "    frequency=2437" >> /tmp/ap.conf
-		echo "}" >> /tmp/ap.conf
+		echo "interface=wlan0" > /tmp/ap.conf
+		echo "ssid=\"$APNAME\"" >> /tmp/ap.conf
+		echo "channel=6" >> /tmp/ap.conf
+		echo "driver=nl80211" >> /tmp/ap.conf
 		# Reboot in 5 minutes in case this is only a temporary failure
 		`sleep 300 ; reboot` &
-		wpa_supplicant -Dnl80211 -i wlan0 -c "/tmp/ap.conf" -B -d -f /var/log/wpa_supplicant.log
+		hostapd -B -t -d /tmp/ap.conf >> /tmp/hostapd.log
 		# Set IP Address
 		ip addr add 192.168.4.1/24 dev wlan0
 		# Start DHCP Server

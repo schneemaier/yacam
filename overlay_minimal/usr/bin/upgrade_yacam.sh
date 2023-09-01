@@ -2,6 +2,11 @@
 
 OTAFILE=demo_ota.128.tar
 
+do_reboot() {
+  sleep 5
+  reboot
+}
+
 do_flash() {
   # $1 = path to file (/tmp/rootfs.jffs2)
   # $2 = MTD device number (0, 1, 2)
@@ -49,6 +54,7 @@ else
 fi
 echo -e "\nStopping services..."
 # run the services stop script
+/etc/init.d/S90scripts stop
 /etc/init.d/S70autonight stop
 /etc/init.d/S66mjpg_streamer stop
 /etc/init.d/S64v4l2rtpserver stop
@@ -84,7 +90,8 @@ case "$MODE" in
     fi
     tar -xvf /tmp/demo_ota.tar
     if [[ $? -ne 0 ]]; then
-      echo "TAR error"
+      echo "TAR error. Reboot in 5 seconds"
+      do_reboot &
       exit 1
     fi
     echo "Image extracted successfully."
@@ -92,10 +99,11 @@ case "$MODE" in
   WWW)
     tar -xvf "$2"
     if [[ $? -ne 0 ]]; then
-      echo "TAR error"
+      echo "<p>TAR error. Reboot in 5 seconds</p>"
+      do_reboot &
       exit 1
     fi
-    echo "Image extracted successfully."
+    echo "<p>Image extracted successfully.</p>"
     ;;
   *)
     echo "Not implemented"
@@ -124,15 +132,15 @@ while true; do
 
   if [[ $# -lt 3 ]] ; then
     read -p "Do you want to reboot? " -n 1 -r
-    echo    # (optional) move to a new line
+    echo
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
       reboot
     fi
     exit 0
   else
-    echo "Upgrade finished! Rebooting...."
-    reboot
+    echo -e "\nUpgrade finished! Rebooting in 5 seconds...."
+    do_reboot &
     exit 0
   fi
 done

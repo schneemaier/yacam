@@ -1,0 +1,53 @@
+#!/bin/sh
+# Script to start custom scripts from /user/script
+
+if [ `mount | grep mtdblock3 | wc -l` != "1" ]
+then
+	echo "User directory not mounted"
+	exit 1
+fi
+
+if [[ -f /tmp/ap.conf ]]
+then
+        # AP mode
+        echo "AP Mode. Not starting"
+        exit 1
+fi
+
+# TODO: Add config file parameter to enable / disable user scripts
+if [[ -f /etc/yacam.conf ]]; then
+	. /etc/yacam.conf
+fi
+
+case "$1" in
+  start)
+	echo "Starting scripts in /user/script"
+	for i in /user/scripts/*.sh
+	do
+		echo -n "Starting $i.."
+		$i &
+		echo "Done!"
+	done
+	;;
+  stop)
+	echo "TODO"
+	for i in /user/scripts/*.sh
+	do
+		echo $i
+		for j in `ps | grep $i | awk '{ print $1 }'`
+		do
+			echo "Killining $j"
+			kill $j
+		done
+	done
+	;;
+  restart|reload)
+	"$0" stop
+	"$0" start
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?

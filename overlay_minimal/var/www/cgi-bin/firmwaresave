@@ -11,6 +11,18 @@
 # ^M    <--------- extra empty line
 # -----------------------------29995809218093749221856446032--^M
 
+echo "Content-type: text/html"
+echo
+echo "<!DOCTYPE html>"
+echo "<html lang='en' class=''>"
+echo "  <head>"
+echo "    <title>YaCAM Firmware Update</title>"
+echo "    <meta charset='utf-8'>"
+echo "    <meta http-equiv=Refresh Content='10; Url=/'>"
+echo "    <style> body { white-space: pre; } </style>"
+echo "  </head>"
+echo "  <body>"
+
 file=/tmp/yacam_ota.tar
 
 CR=`printf '\r'`
@@ -41,8 +53,9 @@ test "$filesize" -lt "$tail_len" && exit 1
 # Check that tail is correct
 dd if="$file" skip=$((filesize - tail_len)) bs=1 count=1000 >"$file.tail" 2>/dev/null
 printf "\r\n%s--\r\n" "$delim_line" >"$file.tail.expected"
+
 if ! diff -q "$file.tail" "$file.tail.expected" >/dev/null; then
-    printf "<html>\n<body>\nMalformed file upload"
+    echo "<p>Malformed file upload</p></body></html>"
     exit 1
 fi
 rm "$file.tail"
@@ -51,8 +64,12 @@ rm "$file.tail.expected"
 # Truncate the file
 dd of="$file" seek=$((filesize - tail_len)) bs=1 count=0 >/dev/null 2>/dev/null
 
-printf "<html>\n<body>\nFile upload has been accepted"
+echo "<p>File upload has been accepted</p>"
+echo "    <textarea id='firm' name='firm' rows='40' cols='80' readonly>"
 
 /usr/bin/upgrade_yacam.sh "www" "$file" "y"
 
+echo "    </textarea>"
+echo "  </body>"
+echo "</html>"
 

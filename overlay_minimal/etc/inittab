@@ -26,4 +26,4 @@
 # Stuff to do before rebooting
 ::shutdown:/etc/init.d/rcK
 ::shutdown:/sbin/swapoff -a
-::shutdown:/bin/umount -a -r
+::shutdown:/bin/umount -a -r -f
