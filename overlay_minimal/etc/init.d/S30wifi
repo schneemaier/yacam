@@ -59,7 +59,7 @@ case "$1" in
 		APNAME="YaCAM"`cat /sys/class/net/wlan0/address | sed -r 's/[:]+//g'`
 		rm /tmp/wpa_supplicant.conf
 		echo "interface=wlan0" > /tmp/ap.conf
-		echo "ssid=\"$APNAME\"" >> /tmp/ap.conf
+		echo "ssid=$APNAME" >> /tmp/ap.conf
 		echo "channel=6" >> /tmp/ap.conf
 		echo "driver=nl80211" >> /tmp/ap.conf
 		# Reboot in 5 minutes in case this is only a temporary failure

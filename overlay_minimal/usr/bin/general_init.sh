@@ -68,6 +68,51 @@ then
 	logger -s -t general_init "Config copied from sdcard"
 fi
 
+# substitue function for yacam.conf upgrade
+cmd() {
+  arg=$1
+  shift
+  eval "echo \$$arg"
+}
+
+# Create yacam.conf if it does not exists
+if [ ˘ -f /etc/yacam.conf ]
+then
+	cat /etc/yacam.conf.orig > /etc/yacam.conf
+fi
+
+if [ -f "/etc/upgraded.fsh" ]
+then
+	logger -s -t general_init "System upgrade, upgrading yacam.conf"
+	# Collect all variables
+	VARLIST=`cat /etc/yacam.conf.orig | while read -r LINE ;\
+		do if [ ${#LINE} != 0 ] ;\
+		then if [ ${LINE:0:1} != "#" ] ;\
+			then echo "$LINE" | awk 'BEGIN { FS = "=" } ; { print $1 }' ;\
+			fi ;\
+		fi ; done | xargs`
+	# read factory variables
+	. /etc/yacam.conf.orig
+	# read local setup
+	if [ -f "/etc/yacam.conf" ]
+	then
+		. /etc/yacam.conf
+	fi
+	# copy factory config to local config
+	cat /etc/yacam.conf.orig > /etc/yacam.conf
+	# write local config variables to config file
+	for VARN in $VARLIST
+	do
+		VARV=`cmd $VARN`
+		if [ `echo $VARV | grep -c " "` != 0 ]
+		then
+			VARV="\""$VARV"\""
+		fi
+		sed -i "/$VARN/c$VARN=$VARV" /etc/yacam.conf
+	done
+	logger -s -t general_init "System upgrade, upgrading yacam.conf Completed!"
+	rm /etc/upgraded.fsh
+
 #Setup hostname
 . /etc/yacam.conf
 echo $HOSTNAME >> /tmp/hostname

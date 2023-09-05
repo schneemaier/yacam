@@ -127,7 +127,8 @@ while true; do
   else
     break
   fi
-
+  # Mark that upgrade is completed to ensure config file update on reboot
+  touch /etc/upgraded.fsh
   echo -e "\nYaCAM image flashed successfully. Reboot is required.\n"
 
   if [[ $# -lt 3 ]] ; then
@@ -135,7 +136,7 @@ while true; do
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
-      reboot
+      do_reboot &
     fi
     exit 0
   else
