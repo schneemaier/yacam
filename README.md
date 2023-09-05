@@ -1,24 +1,24 @@
 # YaCAM
 
-YaCAM is a custom opensource firmware for Wyze cameras that use the Ingenic T20 chip. Currently it is tested with Wyze V2 cameras with 128MB memory. I may work on others, but it is untested. Use it at your own risk.
+YaCAM is a custom opensource firmware for Wyze cameras that use the Ingenic T20 chip. Currently it is tested with Wyze V2 and Wyze Pan cameras with 128MB memory. It may work on others, but it is untested. Use it at your own risk.
 The firmeware is based mainly on [openmiko](https://github.com/openmiko/openmiko), but some ideas are from other places like DaFang Hacks / OpenFang / OpenIPC.
 
 ## Features
 
 1. Can provide rtsp and mjpg streams
-2. Bash http server for basic configuration
-3. AP mode for initial configuration of the WIFI conntion
+2. BusyBox http server for basic configuration
+3. AP mode for initial configuration of the WIFI connection
 4. Single config file
-5. Uses the install as the stock firmware (demo.bin). The camera can be reflashed to stock as long the major partitions are not erase where the assigned mac address and the wyze secutiry kays are stored. 
-
+5. Uses the same install process as the stock firmware (demo.bin). The camera can be reflashed to stock as long the major partitions are not erase where the assigned mac address and the wyze secutiry kays are stored.
+6. Provide OTA flash capabilities
 
 ## Differences from openmiko
 
-The main difference that this project uses squashfs, overlayfs and jffs2. Things like micropython are removed to save space and make it compatible with the original fimrware update metode. 
+The main difference that this project uses squashfs, overlayfs and jffs2. Things like micropython, lighthttpd etc are removed to save space and make it compatible with the original fimrware update metode. 
 
 ## For end users
 
-This firmware is not yet ready for daily use!!!! Use it at your own risk!
+This firmware is currenly tested on 10 Wyze V2 camerasrunning continously. It is still in development, daily use at your own risk!!!!
 
 ## Overview
 
@@ -30,8 +30,8 @@ TBD
 2. Insert the SD card and power up the camera while holding the setup button (~30 seconds)
 3. Flashing takes arouns 1-2 minutes
 4. After 2 minutes search for the YACAM AP on your phone or tablet. The AP is YaCAM+MAC address of the WIFI chip. If nothing happens camera will autoreboot in ~5 minutes.
-5. When WIFI is connected go to 192.168.4.1 with the browser on the phone
-6. Provide SSID and WPA password (Hidden SSID or none WPA authetication is currently not supported)
+5. When WIFI is connected go to 192.168.4.1 with the browser on the phone. You can use any URL as it is internally resolved to 192.168.4.1 and should open the WIFI config page
+6. Provide SSID and WPA password (None WPA PSK authetication is currently not supported, hidden SSID is uspported by the config but untested)
 7. After save the camera will reboot and connect to the WIFI
 8. Remove the SD Card before or during the reboot as otherwise it will be filled with log files.
 
@@ -44,7 +44,7 @@ Default username and password for the streams is yacam/yacam
 
 ## Settings
 
-1. Connecting to the http port of the camera provides some settings 
+1. Connecting to the http (80) port of the camera to load the settings page
 2. Edit the yacam.conf file via ssh (default user root password root) for more options which are currently not supported on the web interface
 3. Change the default password via ssh. It will be saved and will survive firmware upgrades
 4. Change username and password or disable authentication in the yacam.conf file for the streams
