@@ -169,6 +169,13 @@ Content-type: text/html
               <td style='white-space:nowrap;align:left'>Password:</td>
               <td><input type='text' name='NPASSWORD' value='$PASSWORD' placeholder=''></td>
             </tr>
+            <tr>
+              <td style='white-space:nowrap;align:left'>Enable Custom scripts:</td>
+              <td><select id='NENABLE_SCRIPTS' name='NENABLE_SCRIPTS'>
+                <option value='0'$NES0>Disabled</option>
+                <option value='1'$NES1>Enabled</option>
+              </select></td>
+            </tr>
           </table>
           <p><button class='button bred' type='submit' name='SUBMIT'>Submit</button>
         </form>

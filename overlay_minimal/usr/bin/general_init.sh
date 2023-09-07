@@ -76,7 +76,7 @@ cmd() {
 }
 
 # Create yacam.conf if it does not exists
-if [ ˘ -f /etc/yacam.conf ]
+if [ ! -f /etc/yacam.conf ]
 then
 	cat /etc/yacam.conf.orig > /etc/yacam.conf
 fi
@@ -112,6 +112,7 @@ then
 	done
 	logger -s -t general_init "System upgrade, upgrading yacam.conf Completed!"
 	rm /etc/upgraded.fsh
+fi
 
 #Setup hostname
 . /etc/yacam.conf

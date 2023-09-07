@@ -37,27 +37,24 @@ echo "Set64="$SET64" NET="$NET
 if [ "$SET64" == "1" ]
 then
 	echo "64MB"
-	sed -i "/MAIN_X_RES/c\MAIN_X_RES=1280" $TARGET_DIR/etc/yacam.conf
-	sed -i "/MAIN_Y_RES/c\MAIN_Y_RES=720" $TARGET_DIR/etc/yacam.conf
+	sed -i "/MAIN_X_RES/c\MAIN_X_RES=1280" $TARGET_DIR/etc/yacam.conf.orig
+	sed -i "/MAIN_Y_RES/c\MAIN_Y_RES=720" $TARGET_DIR/etc/yacam.conf.orig
 	sed -i "/OTAFILE=/c\OTAFILE=demo_ota.64.tar" $TARGET_DIR/usr/bin/upgrade_yacam.sh
 else
 	echo "128MB"
-	sed -i "/MAIN_X_RES/c\MAIN_X_RES=1920" $TARGET_DIR/etc/yacam.conf
-	sed -i "/MAIN_Y_RES/c\MAIN_Y_RES=1080" $TARGET_DIR/etc/yacam.conf
+	sed -i "/MAIN_X_RES/c\MAIN_X_RES=1920" $TARGET_DIR/etc/yacam.conf.orig
+	sed -i "/MAIN_Y_RES/c\MAIN_Y_RES=1080" $TARGET_DIR/etc/yacam.conf.orig
 	sed -i "/OTAFILE=/c\OTAFILE=demo_ota.128.tar" $TARGET_DIR/usr/bin/upgrade_yacam.sh
 fi
 
 if [ "$NET" == "FS" ]
 then
 	echo "FS"
-	sed -i "/WIFI_MODULE/c\WIFI_MODULE=8189fs" $TARGET_DIR/etc/yacam.conf
+	sed -i "/WIFI_MODULE/c\WIFI_MODULE=8189fs" $TARGET_DIR/etc/yacam.conf.orig
 	rm -r "${TARGET_DIR}/lib/modules/3.10.14/kernel/drivers/net/wireless/rtl818x/rtl8189ES"
 else
 	echo "ES"
-	sed -i "/WIFI_MODULE/c\WIFI_MODULE=8189es" $TARGET_DIR/etc/yacam.conf
+	sed -i "/WIFI_MODULE/c\WIFI_MODULE=8189es" $TARGET_DIR/etc/yacam.conf.orig
 	sed -i "/OTAFILE=/c\OTAFILE=demo_ota.pan.tar" $TARGET_DIR/usr/bin/upgrade_yacam.sh
 	rm -r "${TARGET_DIR}/lib/modules/3.10.14/kernel/drivers/net/wireless/rtl818x/rtl8189FS"
 fi
-
-
-

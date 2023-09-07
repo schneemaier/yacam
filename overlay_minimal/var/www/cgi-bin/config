@@ -34,6 +34,16 @@ NAN0=''
 NAN1=''
 NAL0=''
 NAL1=''
+NES0=''
+NES1=''
+case $ENABLE_SCRIPTS in
+        0)
+                NES0=' selected'
+                ;;
+        1)
+                NES1=' selected'
+                ;;
+esac
 case $ENABLE_AUTONIGHT in
         0)
                 NAN0=' selected'

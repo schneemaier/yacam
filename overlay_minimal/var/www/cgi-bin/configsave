@@ -28,6 +28,7 @@ NHTTPUSER=`httpd -d $NHTTPUSER`
 NAUTONIGHT=`httpd -d $NAUTONIGHT`
 NIRLED=`httpd -d $NIRLED`
 NHOSTNAME=`httpd -d $NHOSTNAME`
+NENABLE_SCRIPTS=`httpd -d $NENABLE_SCRIPTS`
 echo "Content-type: text/html"
 echo ""
 echo "<!DOCTYPE html>"
@@ -195,7 +196,14 @@ if [ "$NIRLED" != "$ENABLE_IR_LED" ]
 then
         sed -i "/ENABLE_IR_LED/c\ENABLE_IR_LED=$NIRLED" /etc/yacam.conf
         NIGHTRESTART=1
-        echo "      <p>IR LED Updated updated</p>"
+        echo "      <p>IR LED Updated</p>"
+fi
+CUSTOMSCRIPTSRESTART=0
+if [ "$NENABLE_SCRIPTS" != "$ENABLE_SCRIPTS" ]
+then
+        sed -i "/ENABLE_SCRIPTS/c\ENABLE_SCRIPTS=$NENABLE_SCRIPTS" /etc/yacam.conf
+	CUSTOMSCRIPTSRESTART=1
+        echo "      <p>Custom script updated</p>"
 fi
 echo "      <p>Settings saved! Restarting services</p>"
 sleep 1
@@ -245,7 +253,12 @@ then
         /etc/init.d/S70autonight restart > /dev/null
         echo " Done!</p>"
 fi
-
+if [ "$CUSTOMSCRIPTSRESTART" = "1" ]
+then
+        echo       "<p>Restaring Custom scripts!"
+        /etc/init.d/S90scripts restart > /dev/null
+        echo " Done!</p>"
+fi
 echo "      <p>Returning to main page in a few seconds!</p>"
 echo "      <p></p>"
 echo "    </div>"

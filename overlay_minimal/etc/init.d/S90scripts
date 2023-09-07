@@ -21,16 +21,18 @@ fi
 
 case "$1" in
   start)
-	echo "Starting scripts in /user/script"
-	for i in /user/scripts/*.sh
-	do
-		echo -n "Starting $i.."
-		$i &
-		echo "Done!"
-	done
+	if [ "$ENABLE_SCRIPTS"="1" ]
+	then
+		echo "Starting scripts in /user/script"
+		for i in /user/scripts/*.sh
+		do
+			echo -n "Starting $i.."
+			$i &
+			echo "Done!"
+		done
+	fi
 	;;
   stop)
-	echo "TODO"
 	for i in /user/scripts/*.sh
 	do
 		echo $i

@@ -85,3 +85,5 @@ ENABLE_IR_LED=1
 AUTONIGHT_PARAMS="-j 3 -w 3 -1 1200000 -2 800000,14,10 -3 3000,17,8"
 # Disables LEDs on the camera
 DISABLE_LEDS=0
+# Enable custom scripts
+ENABLE_SCRIPTS=1
