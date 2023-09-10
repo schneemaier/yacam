@@ -45,48 +45,49 @@ case "$1" in
 
 	# wait for connection
 	I=0
-	while [[ `cat /sys/class/net/wlan0/carrier` -eq "0" ]] && [[ $I -lt 5 ]]
+	while [ "`cat /sys/class/net/wlan0/operstate`" != "up" ] && [[ $I -lt 5 ]]
 	do
 		I=$((I+1))
+		echo "Waiting for WiFi connection..."
 		sleep 1
 	done
 
 	# Handle if not connected to wifi, start AP and reboot in 5 minutes
-	if [[ `cat /sys/class/net/wlan0/carrier` -eq "0" ]]
-	then
-		kill `cat /tmp/wpa.pid`
-		# Setup AP
-		APNAME="YaCAM"`cat /sys/class/net/wlan0/address | sed -r 's/[:]+//g'`
-		rm /tmp/wpa_supplicant.conf
-		echo "interface=wlan0" > /tmp/ap.conf
-		echo "ssid=$APNAME" >> /tmp/ap.conf
-		echo "channel=6" >> /tmp/ap.conf
-		echo "driver=nl80211" >> /tmp/ap.conf
-		# Reboot in 5 minutes in case this is only a temporary failure
-		`sleep 300 ; reboot` &
-		hostapd -B -t -d /tmp/ap.conf >> /tmp/hostapd.log
-		# Set IP Address
-		ip addr add 192.168.4.1/24 dev wlan0
-		# Start DHCP Server
-		udhcpd -I 192.168.4.1 /etc/dhcpservap.conf
-		# Create DNS to resolve everything to 192.168.4.1
-		echo "* 192.168.4.1" > /tmp/dnsd.conf
-		dnsd -d -c /tmp/dnsd.conf
-	else
-		logger -s "Using hostname: $HOSTNAME"
-		logger -s "Attempting DHCP"
+        if [ "`cat /sys/class/net/wlan0/operstate`" != "up" ]
+        then
+                kill `cat /tmp/wpa.pid`
+                # Setup AP
+                APNAME="YaCAM"`cat /sys/class/net/wlan0/address | sed -r 's/[:]+//g'`
+                rm /tmp/wpa_supplicant.conf
+                echo "interface=wlan0" > /tmp/ap.conf
+                echo "ssid=$APNAME" >> /tmp/ap.conf
+                echo "channel=6" >> /tmp/ap.conf
+                echo "driver=nl80211" >> /tmp/ap.conf
+                # Reboot in 5 minutes in case this is only a temporary failure
+                `sleep 300 ; reboot` &
+                hostapd -B -t -d /tmp/ap.conf >> /tmp/hostapd.log
+                # Set IP Address
+                ip addr add 192.168.4.1/24 dev wlan0
+                # Start DHCP Server
+                udhcpd -I 192.168.4.1 /etc/dhcpservap.conf
+                # Create DNS to resolve everything to 192.168.4.1
+                echo "* 192.168.4.1" > /tmp/dnsd.conf
+                dnsd -d -c /tmp/dnsd.conf
+        else
+                logger -s "Using hostname: $HOSTNAME"
+                logger -s "Attempting DHCP"
 
-		# -i Interface wlan0
-		# -b Background if lease is not obtained
-		# -A 20 Wait if lease is not obtained in 20 seconds
-		# -S Log to syslog
-		# -t 5 Send up to 5 discover packets (default 3)
-		# -n exit if lease is not obtained
+                # -i Interface wlan0
+                # -b Background if lease is not obtained
+                # -A 20 Wait if lease is not obtained in 20 seconds
+                # -S Log to syslog
+                # -t 5 Send up to 5 discover packets (default 3)
+                # -n exit if lease is not obtained
 
 		udhcpc -p /tmp/udhcpc.pid -i wlan0 -b -A 10 -S -t 10 -n -x hostname:$HOSTNAME
 		ifconfig | logger -s
-	fi
-
+		# TODO: What to do if DHCP fails?
+        fi
 	;;
   stop)
 	printf "Stopping wifi..."
