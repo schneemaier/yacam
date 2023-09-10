@@ -91,10 +91,26 @@ cp $OUTFILE2 $RELEASE_DIR/demo.bin
 cp $OUTFILE2 $RELEASE_DIR/demo.yacam.$NOW.bin
 echo "Firmware created: $RELEASE_DIR/demo.bin"
 
-echo "Creating OTA file"
-tar -cvf $RELEASE_DIR/demo_ota.tar -C $IMAGES uImage.lzma rootfs.squashfs
-
 FINAL=$NET$SET64
+
+echo "Create Firmware type indicator file"
+case $FINAL in
+	'ES0')
+		echo "PAN128" > $IMAGES/otatype.txt
+		;;
+	'FS0')
+		echo "WYZ128" > $IMAGES/otatype.txt
+		;;
+	'FS1')
+		echo "XIAO64" > $IMAGES/otatype.txt
+		;;
+	*)
+		echo "Illegal"
+		;;
+esac
+
+echo "Creating OTA file"
+tar -cvf $RELEASE_DIR/demo_ota.tar -C $IMAGES uImage.lzma rootfs.squashfs otatype.txt
 
 case $FINAL in
 	'ES0')

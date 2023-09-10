@@ -1,6 +1,7 @@
 #!/bin/sh
 
 OTAFILE=demo_ota.128.tar
+OTATYPE=WYZ128
 
 do_reboot() {
   sleep 5
@@ -99,11 +100,18 @@ case "$MODE" in
   WWW)
     tar -xvf "$2"
     if [[ $? -ne 0 ]]; then
-      echo "<p>TAR error. Reboot in 5 seconds</p>"
+      echo "TAR error. Reboot in 5 seconds"
       do_reboot &
       exit 1
     fi
     echo "<p>Image extracted successfully.</p>"
+    if [ `cat /tmp/otetype.txt` != "$OTATYPE" ]
+    then
+      echo "Incorrect OTA type. Reboot in 5 seconds"
+      do_reboot &
+      exit 1
+    fi
+
     ;;
   *)
     echo "Not implemented"
