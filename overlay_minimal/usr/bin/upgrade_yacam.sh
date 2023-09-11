@@ -105,7 +105,7 @@ case "$MODE" in
       exit 1
     fi
     echo "<p>Image extracted successfully.</p>"
-    if [ `cat /tmp/otetype.txt` != "$OTATYPE" ]
+    if [ `cat /tmp/otatype.txt` != "$OTATYPE" ]
     then
       echo "Incorrect OTA type. Reboot in 5 seconds"
       do_reboot &
