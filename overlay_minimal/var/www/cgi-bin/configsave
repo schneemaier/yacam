@@ -38,7 +38,7 @@ echo "    <title>YaCAM Setup Save</title>"
 echo "    <meta charset='utf-8'>"
 echo "    <meta http-equiv=Refresh Content='5; Url=/'>"
 echo "    <meta name='viewport' content='width=device-width,initial-scale=1,user-scalable=no'/>"
-echo "    <style>div,fieldset,input,select{padding:5px;font-size:1em;}fieldset{background:#f2f2f2;}p{margin:0.5em 0;}input{width:100%;box-sizing:></style>"
+echo "    <style>div,fieldset,input,select{padding:5px;font-size:1em;}fieldset{background:#f2f2f2;}p{margin:0.5em 0;}input{width:100%;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;background:#ffffff;color:#000000;}input[type=checkbox],input[type=radio]{width:1em;margin-right:6px;vertical-align:-1px;}select{width:100%;backgroud:#ffffff;color:#000000;}textarea{resize:none;width:98%;height:318px;padding:5px;overflow:auto;background:#ffffff;color:#000000;}body{text-align:center;font-family:verdana,sans-serif;background:#ffffff;}td{padding:0px;}button{border:0;border-radius:0.3rem;background:#1fa3ec;color:#ffffff;line-height:2.4rem;font-size:1.2rem;width:100%;-webkit-transition-duration:0.4s;transition-duration:0.4s;cursor:pointer;}button:hover{background:#0e70a4;}.bred{background:#d43535;}.bred:hover{background:#931f1f;}.bgrn{background:#47c266;}.bgrn:hover{background:#5aaf6f;}a{text-decoration:none;}.p{float:left;text1float:right;text-align:right;}</style>"
 echo "  </head>"
 echo "  <body>"
 echo "    <div style='text-align:left;display:inline-block;color:#000000;min-width:340px;'>"
@@ -47,7 +47,8 @@ echo "      <p> Saving settings<p>"
 echo "      <p></p>"
 echo "      <div></div>"
 
-if [ "$NHOSTNAME" != "$HOSTNAME" ]
+
+if [ ! -z "$NHOSTNAME"] & [ "$NHOSTNAME" != "$HOSTNAME" ]
 then
 	echo $NHOSTNAME > /tmp/hostname
         sed -i "/HOSTNAME/c\HOSTNAME=$NHOSTNAME" /etc/yacam.conf
@@ -55,25 +56,25 @@ then
         echo "      <p>HOSTNAME Saved</p>"
 fi
 WIFIRESTART=0
-if [ "$WFNAME" != "$NETNAME" ]
+if [ ! -z "$WFNAME"] & [ "$WFNAME" != "$NETNAME" ]
 then
 	sed -i "/NETNAME/c\NETNAME=$WFNAME" /etc/yacam.conf
 	WIFIRESTART=1
 	echo "      <p>SSID Saved</p>"
 fi
-if [ "$WFPSK" != "$NETPW" ]
+if [ ! -z "$WFPSK"] & [ "$WFPSK" != "$NETPW" ]
 then
 	sed -i "/NETPW/c\NETPW=$WFPSK" /etc/yacam.conf
         WIFIRESTART=1
 	echo "      <p>WIFI Password Saved</p>"
 fi
-if [ "$WHIDDEN" != "$HIDDEN" ]
+if [ ! -z "$WHIDDEN"] & [ "$WHIDDEN" != "$HIDDEN" ]
 then
         sed -i "/HIDDEN/c\HIDDEN=$WHIDDEN" /etc/yacam.conf
         WIFIRESTART=1
         echo "      <p>Hidden SSID Saved</p>"
 fi
-if [ "$WWIFIMAC" != "$WIFI_MAC" ]
+if [ ! -z "$WWIFIMAC"] & [ "$WWIFIMAC" != "$WIFI_MAC" ]
 then
         sed -i "/WIFI_MAC/c\WIFI_MAC=$WWIFIMAC" /etc/yacam.conf
         WIFIRESTART=1
@@ -81,13 +82,13 @@ then
 fi
 
 NTPRESTART=0
-if [ "$NNTPSERVER" != "$NTPSERVER" ]
+if [ ! -z "$NNTPSERVER"] & [ "$NNTPSERVER" != "$NTPSERVER" ]
 then
 	sed -i "/NTPSERVER/c\NTPSERVER=$NNTPSERVER" /etc/yacam.conf
 	NTPRESTART=1
 	echo "      <p>NTP Server saved</p>"ű
 fi
-if [ "$NTIMEZONE" != "$TIMEZONE" ]
+if [ ! -z "$NTIMEZONE"] & [ "$NTIMEZONE" != "$TIMEZONE" ]
 then
         sed -i "/TIMEZONE/c\TIMEZONE=$NTIMEZONE" /etc/yacam.conf
         NTPRESTART=1
@@ -95,90 +96,90 @@ then
 fi
 
 HTTPRESTART=0
-if [ "$NHTTPPROT" != "$HTTPPROT" ]
+if [ ! -z "$NHTTPPROT"] & [ "$NHTTPPROT" != "$HTTPPROT" ]
 then
         sed -i "/HTTPPROT/c\HTTPPROT=$HTTPPROT" /etc/yacam.conf
         HTTPRESTART=1
         echo "      <p>HTTP Server saved</p>"
 fi
-if [ "$NHTTPUSER" != "$HTTPUSER" ]
+if [ ! -z "$NHTTPUSER"] & [ "$NHTTPUSER" != "$HTTPUSER" ]
 then
         sed -i "/HTTPUSER/c\HTTPUSER=$NHTTPUSER" /etc/yacam.conf
         HTTPRESTART=1
         echo "      <p>Admin USERNAME updated</p>"
 fi
-if [ "$NHTTPPWD" != "$HTTPPWD" ]
+if [ ! -z "$NHTTPPWD"] & [ "$NHTTPPWD" != "$HTTPPWD" ]
 then
         sed -i "/HTTPPWD/c\HTTPPWD=$NHTTPPWD" /etc/yacam.conf
         HTTPRESTART=1
         echo "      <p>Admin PASSWORD updated</p>"
 fi
 CAPTURERESTART=0
-if [ "$NFLIP_VERTICAL" != "$FLIP_VERTICAL" ]
+if [ ! -z "$NFLIP_VERTICAL"] & [ "$NFLIP_VERTICAL" != "$FLIP_VERTICAL" ]
 then
         sed -i "/FLIP_VERTICAL/c\FLIP_VERTICAL=$NFLIP_VERTICAL" /etc/yacam.conf
         CAPTURERESTART=1
         echo "      <p>Flip Vertical saved</p>"
 fi
-if [ "$NFLIP_HORIZONTAL" != "$FLIP_HORIZONTAL" ]
+if [ ! -z "$NFLIP_HORIZONTAL"] & [ "$NFLIP_HORIZONTAL" != "$FLIP_HORIZONTAL" ]
 then
         sed -i "/FLIP_HORIZONTAL/c\FLIP_HORIZONTAL=$NFLIP_HORIZONTAL" /etc/yacam.conf
         CAPTURERESTART=1
         echo "      <p>Flip Horizontal saved</p>"
 fi
-if [ "$NTIME_LOCATION" != "$TIME_LOCATION" ]
+if [ ! -z "$NTIME_LOCATION"] & [ "$NTIME_LOCATION" != "$TIME_LOCATION" ]
 then
         sed -i "/TIME_LOCATION/c\TIME_LOCATION=$NTIME_LOCATION" /etc/yacam.conf
         CAPTURERESTART=1
         echo "      <p>Time Stamp Location saved</p>"
 fi
-if [ "$NTIMESTAMP" != "$TIMESTAMP" ]
+if [ ! -z "$NTIMESTAMP"] & [ "$NTIMESTAMP" != "$TIMESTAMP" ]
 then
         sed -i "/TIMESTAMP/c\TIMESTAMP=$NTIMESTAMP" /etc/yacam.conf
         CAPTURERESTART=1
         echo "      <p>Timestamp saved</p>"
 fi
-if [ "$NTIME_24" != "$TIME_24" ]
+if [ ! -z "$NTIME_24"] & [ "$NTIME_24" != "$TIME_24" ]
 then
         sed -i "/TIME_24/c\TIME_24=$NTIME_24" /etc/yacam.conf
         CAPTURERESTART=1
         echo "      <p>Time 24 saved</p>"
 fi
 RTSPRESTART=0
-if [ "$NENABLE_MAIN_RTSP" != "$ENABLE_MAIN_RTSP" ]
+if [ ! -z "$NENABLE_MAIN_RTSP"] & [ "$NENABLE_MAIN_RTSP" != "$ENABLE_MAIN_RTSP" ]
 then
         sed -i "/ENABLE_MAIN_RTSP/c\ENABLE_MAIN_RTSP=$NENABLE_MAIN_RTSP" /etc/yacam.conf
         RTSPRESTART=1
         echo "      <p>RTSP Main updated</p>"
 fi
-if [ "$NENABLE_SUB_RTSP" != "$ENABLE_SUB_RTSP" ]
+if [ ! -z "$NENABLE_SUB_RTSP"] & [ "$NENABLE_SUB_RTSP" != "$ENABLE_SUB_RTSP" ]
 then
         sed -i "/ENABLE_SUB_RTSP/c\ENABLE_SUB_RTSP=$NENABLE_SUB_RTSP" /etc/yacam.conf
         RTSPRESTART=1
         echo "      <p>RTSP Sub updated</p>"
 fi
 MJPEGRESTART=0
-if [ "$NENABLE_MJPEG" != "$ENABLE_MJPEG" ]
+if [ ! -z "$NENABLE_MJPEG"] & [ "$NENABLE_MJPEG" != "$ENABLE_MJPEG" ]
 then
         sed -i "/ENABLE_MJPEG/c\ENABLE_MJPEG=$NENABLE_MJPEG" /etc/yacam.conf
         MJPEGSTART=1
         echo "      <p>MJPEG updated</p>"
 fi
-if [ "$NENABLE_AUTH" != "$ENABLE_AUTH" ]
+if [ ! -z "$NENABLE_AUTH"] & [ "$NENABLE_AUTH" != "$ENABLE_AUTH" ]
 then
         sed -i "/ENABLE_AUTH/c\ENABLE_AUTH=$NENABLE_AUTH" /etc/yacam.conf
         RTSPRESTART=1
 	MJPEGSTART=1
         echo "      <p>AUTH updated</p>"
 fi
-if [ "$NUSERNAME" != "$USERNAME" ]
+if [ ! -z "$NUSERNAME"] & [ "$NUSERNAME" != "$USERNAME" ]
 then
         sed -i "/USERNAME/c\USERNAME=$NUSERNAME" /etc/yacam.conf
         RTSPRESTART=1
         MJPEGSTART=1
         echo "      <p>USERNAME updated</p>"
 fi
-if [ "$NPASSWORD" != "$PASSWORD" ]
+if [ ! -z "$NPASSWORD"] & [ "$NPASSWORD" != "$PASSWORD" ]
 then
         sed -i "/PASSWORD/c\PASSWORD=$NPASSWORD" /etc/yacam.conf
         RTSPRESTART=1
@@ -186,20 +187,20 @@ then
         echo "      <p>PASSWORD updated</p>"
 fi
 NIGHTRESTART=0
-if [ "$NAUTONIGHT" != "$ENABLE_AUTONIGHT" ]
+if [ ! -z "$NAUTONIGHT"] & [ "$NAUTONIGHT" != "$ENABLE_AUTONIGHT" ]
 then
         sed -i "/ENABLE_AUTONIGHT/c\ENABLE_AUTONIGHT=$NAUTONIGHT" /etc/yacam.conf
         NIGHTRESTART=1
         echo "      <p>AUTONIGHT updated</p>"
 fi
-if [ "$NIRLED" != "$ENABLE_IR_LED" ]
+if [ ! -z "$NIRLED"] & [ "$NIRLED" != "$ENABLE_IR_LED" ]
 then
         sed -i "/ENABLE_IR_LED/c\ENABLE_IR_LED=$NIRLED" /etc/yacam.conf
         NIGHTRESTART=1
         echo "      <p>IR LED Updated</p>"
 fi
 CUSTOMSCRIPTSRESTART=0
-if [ "$NENABLE_SCRIPTS" != "$ENABLE_SCRIPTS" ]
+if [ ! -z "$NENABLE_SCRIPTS"] & [ "$NENABLE_SCRIPTS" != "$ENABLE_SCRIPTS" ]
 then
         sed -i "/ENABLE_SCRIPTS/c\ENABLE_SCRIPTS=$NENABLE_SCRIPTS" /etc/yacam.conf
 	CUSTOMSCRIPTSRESTART=1

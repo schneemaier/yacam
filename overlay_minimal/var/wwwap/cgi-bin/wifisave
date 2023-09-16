@@ -2,17 +2,47 @@
 
 echo "Content-type: text/html"
 echo ""
-echo ""
+echo "<!DOCTYPE html>"
+echo "<html lang='en' class=''>"
+echo "  <head>"
+echo "    <title>YaCAM WIFI Setup Save</title>"
+echo "    <meta charset='utf-8'>"
+echo "    <meta name='viewport' content='width=device-width,initial-scale=1,user-scalable=no'/>"
+echo "    <style>div,fieldset,input,select{padding:5px;font-size:1em;}fieldset{background:#f2f2f2;}p{margin:0.5em 0;}input{width:100%;box-sizing:>"
+echo "  </head>"
+echo "  <body>"
+
 read QUERY_STRING
 eval $(echo "$QUERY_STRING"|awk -F'&' '{for(i=1;i<=NF;i++){print $i}}')
 WFNAME=`httpd -d $WIFINAME`
 WFPSK=`httpd -d $WIFIPSK`
 WHIDDEN=`httpd -d $WHIDDEN`
 WMAC=`httpd -d $WWIFIMAC`
-sed -i "/NETNAME/c\NETNAME=$WFNAME" /etc/yacam.conf
-sed -i "/NETPW/c\NETPW=$WFPSK" /etc/yacam.conf
-sed -i "/HIDDEN/c\HIDDEN=$WHIDDEN" /etc/yacam.conf
-sed -i "/WIFI_MAC/c\WIFI_MAC=$WMAC" /etc/yacam.conf
+echo "   <div style='text-align:left;display:inline-block;color:#000000;min-width:340px;'>"
+echo "      <h1>YaCAM WIFI Setup SAVE</h1>"
+echo "      <p></p>"
+echo "      <div></div>"
+echo "      <p></p>"
 
-echo "Settings saved! Rebooting"
+if [ ! -z $WFNAME ]
+then
+  sed -i "/NETNAME/c\NETNAME=$WFNAME" /etc/yacam.conf
+fi
+if [ ! -z ${WFPSK+x} ] # Enable empty psk
+then
+  sed -i "/NETPW/c\NETPW=$WFPSK" /etc/yacam.conf
+fi
+if [ ! -z $WHIDDEN ]
+then
+  sed -i "/HIDDEN/c\HIDDEN=$WHIDDEN" /etc/yacam.conf
+fi
+if [ ! -z $WMAC ]
+then
+  sed -i "/WIFI_MAC/c\WIFI_MAC=$WMAC" /etc/yacam.conf
+fi
+echo "      <h1>Settings saved! Rebooting</h1>"
+echo "      <p></p>"
+echo "    </div>"
+echo "  </body>"
+echo "</html>"
 reboot
