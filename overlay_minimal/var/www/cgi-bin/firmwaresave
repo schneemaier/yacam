@@ -69,7 +69,7 @@ rm "$file.tail.expected"
 dd of="$file" seek=$((filesize - tail_len)) bs=1 count=0 >/dev/null 2>/dev/null
 
 echo "    <h1>File upload has been accepted</h1>"
-echo "    <textarea id='firm' name='firm' rows='40' cols='80' readonly>"
+echo "    <textarea id='firm' name='firm' rows='60' cols='80' readonly>"
 
 /usr/bin/upgrade_yacam.sh "www" "$file" "y"
 
