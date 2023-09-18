@@ -7,7 +7,7 @@ MJPG_STREAMER_SUBDIR = mjpg-streamer-experimental
 
 define MJPG_STREAMER_TARGET_CLEANUP
 	# remot WWW directory
-	#rm -rf $(TARGET_DIR)/usr/share/mjpg-streamer/www
+	rm -rf $(TARGET_DIR)/usr/share/mjpg-streamer/www
 	# remove unused mjpg stream input and output options
         rm -rf $(TARGET_DIR)/usr/lib/mjpg-streamer/input_file.so
         rm -rf $(TARGET_DIR)/usr/lib/mjpg-streamer/input_http.so

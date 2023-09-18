@@ -33,7 +33,7 @@ case "$1" in
 		fi
 	 	echo -n "Starting mjpg_streamer ($MJPEG_FPS fps): "
 	 	VIDNUM=$((3+$ENABLE_MAIN_RTSP))
-		mjpg_streamer -i "input_v4l2loopback.so -d /dev/video$VIDNUM --fps $MJPEG_FPS" -o "output_http.so -p $MJPEG_PORT $AUTH" > /dev/null 2>&1 &
+		mjpg_streamer -i "input_v4l2loopback.so -d /dev/video$VIDNUM --fps $MJPEG_FPS" -o "output_http.so -w /var/wwwmjpg -p $MJPEG_PORT $AUTH" > /dev/null 2>&1 &
 		[ $? == 0 ] && echo "OK" || echo "FAIL"
 		;;
 	stop)
