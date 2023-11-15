@@ -8,6 +8,14 @@
 
 . /etc/yacam.conf
 
+ipcheck() {
+	sleep 300
+	if [ `ip addr | grep 'wlan0:' -A2 | tail -n1 | grep wlan | wc -l` -eq 0 ]
+	then
+		reboot
+	fi
+}
+
 case "$1" in
   start)
 
@@ -79,14 +87,17 @@ case "$1" in
 
                 # -i Interface wlan0
                 # -b Background if lease is not obtained
-                # -A 20 Wait if lease is not obtained in 20 seconds
+                # -A 10 Wait if lease is not obtained in 10 seconds
                 # -S Log to syslog
-                # -t 5 Send up to 5 discover packets (default 3)
-                # -n exit if lease is not obtained
+                # -t 10 Send up to 5 discover packets (default 3)
 
-		udhcpc -p /tmp/udhcpc.pid -i wlan0 -b -A 10 -S -t 10 -n -x hostname:$HOSTNAME
+		udhcpc -p /tmp/udhcpc.pid -i wlan0 -b -A 10 -S -t 10 -x hostname:$HOSTNAME
 		ifconfig | logger -s
-		# TODO: What to do if DHCP fails?
+		if [ `ip addr | grep 'wlan0:' -A2 | tail -n1 | grep wlan | wc -l` -eq 0 ]
+		then
+			ipcheck &
+		fi
+		# If dhcp fails wait 5 minutes. If still no IP address then reboot
         fi
 	;;
   stop)
