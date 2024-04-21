@@ -53,13 +53,13 @@ rm -rf /yacam/build/buildroot-2016.02/package/busybox
 cp -r /src/custompackages/package/* /yacam/build/buildroot-2016.02/package/
 
 # Avoid FPU bug on XBurst CPUs
-#patch -p1 < /src/patches/add_fp_no_fused_madd.patch
+! patch -N -p1 < /src/patches/add_fp_no_fused_madd.patch
 
 # Video for Linux package needs -lpthread (only needed if I compile it)
-#patch -p1 < /src/patches/libv4l_add_lpthread.patch
+! patch -N -p1 < /src/patches/libv4l_add_lpthread.patch
 
 # Add LINUX_PRE_BUILD_HOOKS to create embedded initramfs file
-#patch -p1 < /src/patches/linux_makefile.patch
+! patch -N -p1 < /src/patches/linux_makefile.patch
 
 # Replace the default buildroot config files with our custom ones
 # The linux configuration is set inside the ingenic_t20_defconfig
