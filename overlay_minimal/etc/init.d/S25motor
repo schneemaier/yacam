@@ -1,0 +1,30 @@
+#!/bin/sh
+#
+# Calibrate motor on PAN
+#
+
+#. /etc/yacam.conf
+ENABLE_MOTOR="1"
+
+case "$1" in
+  start)
+
+	if [ "$ENABLE_MOTOR" != "1" ]; then
+		echo "ENABLE_MOTOR is 0. Not starting swap."
+		exit 0
+	fi
+	modprobe sample-motor
+	/usr/bin/motor -d h
+	echo "C" > /tmp/motor
+	;;
+  stop)
+	rm /tmp/motor
+	;;
+  restart|reload)
+	;;
+  *)
+	echo "Usage: $0 {start|stop|restart}"
+	exit 1
+esac
+
+exit $?

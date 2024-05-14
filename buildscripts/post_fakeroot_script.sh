@@ -54,6 +54,9 @@ then
 	echo "FS"
 	sed -i "/WIFI_MODULE/c\WIFI_MODULE=8189fs" $TARGET_DIR/etc/yacam.conf.orig
 	rm -r "${TARGET_DIR}/lib/modules/3.10.14/kernel/drivers/net/wireless/rtl818x/rtl8189ES"
+	rm -r "${TARGET_DIR}/etc/init.d/S25motor"
+	rm -r "${TARGET_DIR}/usr/bin/motor"
+	rm -r "${TARGET_DIR}/lib/modules/3.10.14/kernel/drivers/misc/motor"
 else
 	echo "ES"
 	sed -i "/WIFI_MODULE/c\WIFI_MODULE=8189es" $TARGET_DIR/etc/yacam.conf.orig
