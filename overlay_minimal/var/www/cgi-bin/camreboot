@@ -1,0 +1,18 @@
+#!/bin/sh
+echo "Content-type: text/html"
+echo ""
+echo "<!DOCTYPE html>"
+echo "<html lang='en' class=''>"
+echo "  <head>"
+echo "    <title>YaCAM Setup Save</title>"
+echo "    <meta charset='utf-8'>"
+echo "    <meta http-equiv=Refresh Content='15; Url=/'>"
+echo "  </head>"
+echo "  <body>"
+echo "    <div style='text-align:left;display:inline-block;color:#000000;min-width:340px;'>"
+echo "      <h1>YaCAM Rebooting!</h1>"
+echo "      <p></p>"
+echo "    </div>"
+echo "  </body>"
+echo "</html>"
+/sbin/reboot

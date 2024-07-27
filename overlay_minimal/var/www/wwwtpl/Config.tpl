@@ -177,9 +177,16 @@ Content-type: text/html
               </select></td>
             </tr>
           </table>
-          <p><button class='button bred' type='submit' name='SUBMIT'>Submit</button>
+          <p><button class='button bred' type='submit' name='SUBMIT'>Submit</button><button class='button bred' type='button' name='REBOOT' onclick="reboot()">REBOOT</button>
         </form>
       <p></p>
     </div>
+    <script>
+      function reboot() {
+        if (confirm("Press OK to reboot!")) == true) {
+          window.open('/cgi-bin/camreboot','_self');
+        }  
+      }
+    </script>
   </body>
 </html>

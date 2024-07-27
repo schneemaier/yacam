@@ -45,4 +45,4 @@ echo "      <p></p>"
 echo "    </div>"
 echo "  </body>"
 echo "</html>"
-reboot
+/sbin/reboot
