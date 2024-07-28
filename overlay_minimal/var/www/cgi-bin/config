@@ -3,6 +3,8 @@
 set -a
 . /etc/yacam.conf
 VERSION=`cat /etc/VERSION`
+GITVERSION=`cat /etc/GITVERSION`
+BUILDDATE=`cat /etc/BUILDDATE`
 MAC=`cat /sys/class/net/wlan0/address`
 NTIME0=''
 NTIME1=''

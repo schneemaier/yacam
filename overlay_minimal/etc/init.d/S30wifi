@@ -81,6 +81,11 @@ case "$1" in
                 # Create DNS to resolve everything to 192.168.4.1
                 echo "* 192.168.4.1" > /tmp/dnsd.conf
                 dnsd -d -c /tmp/dnsd.conf
+                # after wifi settings changed if cannot connect to SSID ensure that http server is set to config mode
+                if [[ `ps | grep httpd | wc -l` -gt 1 ]]
+                then
+                        /etc/init.d/S50httpd restart
+                fi
         else
                 logger -s "Using hostname: $HOSTNAME"
                 logger -s "Attempting DHCP"

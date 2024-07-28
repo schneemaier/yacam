@@ -31,8 +31,8 @@ cd /src
 #GIT_REVISION=$(git rev-parse --quiet --short HEAD)
 GIT_REVISION=$(git rev-parse --quiet --short HEAD)
 
-echo $GIT_REVISION > $TARGET_DIR/etc/VERSION
-
+echo $GIT_REVISION > $TARGET_DIR/etc/GITVERSION
+date > $TARGET_DIR/etc/BUILDDATE
 echo "Set64="$SET64" NET="$NET
 if [ "$SET64" == "1" ]
 then

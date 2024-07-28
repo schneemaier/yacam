@@ -11,7 +11,9 @@ Content-type: text/html
   <body>
     <div style='text-align:left;display:inline-block;color:#000000;min-width:340px;'>
       <h1>YaCAM Setup</h1>
+      <p>Git Version: $GITVERSION<p>
       <p>Version: $VERSION<p>
+      <p>Build date: $BUILDDATE<p>
       <p>MAC Address: $MAC<p>
       <p><a href="/cgi-bin/firmware">Firmware update</a></p>
       <div></div>
@@ -140,7 +142,7 @@ Content-type: text/html
               </select></td
             </tr>
             <tr>
-              <td style='white-space:nowrap;align:left'>MJPEG Stream::</td>
+              <td style='white-space:nowrap;align:left'>MJPEG Stream:</td>
               <td><select id='NENABLE_MJPEG' name='NENABLE_MJPEG'>
                 <option value='0'$NM0>Disabled</option>
                 <option value='1'$NM1>Enabled</option>
@@ -177,14 +179,21 @@ Content-type: text/html
               </select></td>
             </tr>
           </table>
-          <p><button class='button bred' type='submit' name='SUBMIT'>Submit</button><button class='button bred' type='button' name='REBOOT' onclick="reboot()">REBOOT</button>
+          <p><button class='button bred' type='submit' name='SUBMIT' onclick="return confirm('Are you sure to save changes?')">Submit</button></p>
+          <p><button class='button bred' type='button' name='REBOOT' onclick="reboot()">REBOOT</button></p>
+          <p><button class='button bred' type='button' name='FACTORYRESET' onclick="factoryReset()">Factory Reset</button></p>
         </form>
       <p></p>
     </div>
     <script>
       function reboot() {
-        if (confirm("Press OK to reboot!")) == true) {
+        if (confirm("Are you sure?") == true) {
           window.open('/cgi-bin/camreboot','_self');
+        }  
+      }
+      function factoryReset() {
+        if (confirm("Are you sure?") == true) {
+          window.open('/cgi-bin/camreset','_self');
         }  
       }
     </script>
