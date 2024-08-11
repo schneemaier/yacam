@@ -16,11 +16,30 @@ case "$1" in
                 set +a
         else
                 echo "No config"
-		TZ=EST5EDT
+		TIMEZONE="America/New York"
                 NTPSERVER=time.google.com
         fi
 	logger -s "Starting ntpd: "
-	echo "$TIMEZONE" > /tmp/TZ
+	echo "$TIMEZONE" > /tmp/timezone
+
+        TZONE=$(grep -i -F "$TIMEZONE" /var/www/js/tz.js)
+        if [ -z "$TZ" ]; then
+                warn "Timezone $TIMEZONE not found!"
+        fi
+
+        TZ=$(echo "$TZONE" | sed "s/^.*v:'\([^']*\)'.*$/\1/")
+        export TZ
+	echo "$TZ" > /tmp/TZ
+
+        # save timezone
+}
+
+
+
+
+
+
+
 	#echo "server $NTPSERVER" >> /tmp/ntp.conf
 	/usr/sbin/ntpd -p $NTPSERVER
 	[ $? == 0 ] && logger -s "OK" || logger -s "FAIL"

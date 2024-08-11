@@ -118,18 +118,21 @@ case $FINAL in
 	        mv $RELEASE_DIR/demo.bin $RELEASE_DIR/demo.pan.bin
 	        mv $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.pan.tar 
 	        mv $RELEASE_DIR/demo.yacam.$NOW.bin $RELEASE_DIR/demo.yacam.pan.$NOW.bin
+	        echo "Wyze PAN Firmware ready"
 		;;
         'FS0')
                 cp $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.128.$NOW.tar
                 mv $RELEASE_DIR/demo.bin $RELEASE_DIR/demo.128.bin
                 mv $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.128.tar 
                 mv $RELEASE_DIR/demo.yacam.$NOW.bin $RELEASE_DIR/demo.yacam.128.$NOW.bin
+                echo "Wyze V2 Firmware ready"
 		;;
         'FS1')
                 cp $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.64.$NOW.tar
                 mv $RELEASE_DIR/demo.bin $RELEASE_DIR/demo.64.bin
                 mv $RELEASE_DIR/demo_ota.tar $RELEASE_DIR/demo_ota.64.tar 
                 mv $RELEASE_DIR/demo.yacam.$NOW.bin $RELEASE_DIR/demo.yacam.64.$NOW.bin
+                echo "XIAO 64M Firmware ready"
 		;;
 	*)
 		echo "Illegal"

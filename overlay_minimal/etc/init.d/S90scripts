@@ -21,7 +21,7 @@ fi
 
 case "$1" in
   start)
-	if [ "$ENABLE_SCRIPTS"="1" ]
+	if [ $ENABLE_SCRIPTS == 1 ]
 	then
 		echo "Starting scripts in /user/script"
 		for i in /user/scripts/*.sh

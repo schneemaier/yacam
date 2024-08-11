@@ -3,14 +3,14 @@ Content-type: text/html
 <!DOCTYPE html>
 <html lang='en' class=''>
   <head>
-    <title>YaCAM Setup</title>
+    <title>$HOSTNAME YaCAM Setup</title>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width,initial-scale=1,user-scalable=no'/>
     <style>div,fieldset,input,select{padding:5px;font-size:1em;}fieldset{background:#f2f2f2;}p{margin:0.5em 0;}input{width:100%;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;background:#ffffff;color:#000000;}input[type=checkbox],input[type=radio]{width:1em;margin-right:6px;vertical-align:-1px;}select{width:100%;backgroud:#ffffff;color:#000000;}textarea{resize:none;width:98%;height:318px;padding:5px;overflow:auto;background:#ffffff;color:#000000;}body{text-align:center;font-family:verdana,sans-serif;background:#ffffff;}td{padding:0px;}button{border:0;border-radius:0.3rem;background:#1fa3ec;color:#ffffff;line-height:2.4rem;font-size:1.2rem;width:100%;-webkit-transition-duration:0.4s;transition-duration:0.4s;cursor:pointer;}button:hover{background:#0e70a4;}.bred{background:#d43535;}.bred:hover{background:#931f1f;}.bgrn{background:#47c266;}.bgrn:hover{background:#5aaf6f;}a{text-decoration:none;}.p{float:left;text1float:right;text-align:right;}</style>
   </head>
   <body>
     <div style='text-align:left;display:inline-block;color:#000000;min-width:340px;'>
-      <h1>YaCAM Setup</h1>
+      <h1>$HOSTNAME YaCAM Setup</h1>
       <p>Git Version: $GITVERSION<p>
       <p>Version: $VERSION<p>
       <p>Build date: $BUILDDATE<p>

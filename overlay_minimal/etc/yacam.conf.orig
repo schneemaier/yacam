@@ -19,7 +19,7 @@ WIFI_MAC=1
 
 # Time server and timezone
 NTPSERVER=time.google.com
-TIMEZONE=EST5EDT
+TIMEZONE="America/New York"
 HTTPUSER=admin
 HTTPPWD=admin
 HTTPPROT=1

@@ -1,0 +1,3 @@
+[submodule "submodules/ingenic_videocap"]
+	path = submodules/ingenic_videocap
+	url = https://github.com/schneemaier/ingenic_videocap.git

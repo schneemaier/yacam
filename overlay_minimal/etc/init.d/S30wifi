@@ -29,6 +29,9 @@ case "$1" in
 		fi
 		umount /params
 	fi
+	# add resolution for WiFi diconnects
+	WIFI_PARAM=$WIFI_PARAM" rtw_power_mgnt=0 rtw_enusbss=0 rtw_ips_mode=1"
+
 	modprobe $WIFI_MODULE $WIFI_PARAM
 
 	CONFIGPATH="/etc"
