@@ -90,7 +90,7 @@ then
 fi
 if [ ! -z "$NTIMEZONE" ] && [ "$NTIMEZONE" != "$TIMEZONE" ]
 then
-        sed -i "/TIMEZONE/c\TIMEZONE=$NTIMEZONE" /etc/yacam.conf
+        sed -i "/TIMEZONE/c\TIMEZONE=\"$NTIMEZONE\"" /etc/yacam.conf
         NTPRESTART=1
         echo "      <p>Timezone saved</p>"
 fi

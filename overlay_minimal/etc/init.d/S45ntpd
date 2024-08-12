@@ -31,15 +31,6 @@ case "$1" in
         export TZ
 	echo "$TZ" > /tmp/TZ
 
-        # save timezone
-}
-
-
-
-
-
-
-
 	#echo "server $NTPSERVER" >> /tmp/ntp.conf
 	/usr/sbin/ntpd -p $NTPSERVER
 	[ $? == 0 ] && logger -s "OK" || logger -s "FAIL"
