@@ -19,6 +19,7 @@ Content-type: text/html
       <div></div>
       <p></p>
         <form action='/cgi-bin/configsave' method='POST'>
+          <datalist id="timezone_list"></datalist>
           <h2>Set YaCAM parameters</h2>
           <div></div>
           <table style='width:100%'>
@@ -57,7 +58,7 @@ Content-type: text/html
             </tr>
             <tr>
               <td style='white-space:nowrap;align:left'>Timezone:</td>
-              <td><input type='text' name='NTIMEZONE' value='$TIMEZONE' placeholder=''></td>
+              <td><input type='text' name='NTIMEZONE' value='$TIMEZONE' placeholder='' list="timezone_list"></td>
             </tr>
             <tr>
               <td style='white-space:nowrap;align:left'><h3>Webadmin settings</h3></td>
@@ -185,6 +186,7 @@ Content-type: text/html
         </form>
       <p></p>
     </div>
+    <script src="/js/timezone.js"></script>
     <script>
       function reboot() {
         if (confirm("Are you sure?") == true) {
@@ -196,6 +198,13 @@ Content-type: text/html
           window.open('/cgi-bin/camreset','_self');
         }  
       }
+      const timezonelist = document.getElementById("timezone_list");
+      timezonelist.innerHTML = "";
+      TimeZone.forEach(function (tz) {
+        const opt = document.createElement("option");
+        opt.value = tz.name;
+        timezonelist.appendChild(opt);
+      });
     </script>
   </body>
 </html>

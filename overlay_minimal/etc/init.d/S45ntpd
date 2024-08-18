@@ -22,12 +22,12 @@ case "$1" in
 	logger -s "Starting ntpd: "
 	echo "$TIMEZONE" > /tmp/timezone
 
-        TZONE=$(grep -i -F "$TIMEZONE" /var/www/js/tz.js)
-        if [ -z "$TZ" ]; then
+        TZONE=`grep -i -F "$TIMEZONE" /var/www/js/timezone.js`
+        if [ -z "$TZONE" ]; then
                 warn "Timezone $TIMEZONE not found!"
         fi
 
-        TZ=$(echo "$TZONE" | sed "s/^.*v:'\([^']*\)'.*$/\1/")
+        TZ=`echo "$TZONE" | sed "s/^.*v:'\([^']*\)'.*$/\1/"`
         export TZ
 	echo "$TZ" > /tmp/TZ
 
