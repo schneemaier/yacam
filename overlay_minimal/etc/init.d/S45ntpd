@@ -27,7 +27,7 @@ case "$1" in
                 warn "Timezone $TIMEZONE not found!"
         fi
 
-        TZ=`echo "$TZONE" | sed "s/^.*v:'\([^']*\)'.*$/\1/"`
+        TZ=`echo "$TZONE" | sed "s/^.*e:'\([^']*\)'.*$/\1/"`
         export TZ
 	echo "$TZ" > /tmp/TZ
 
