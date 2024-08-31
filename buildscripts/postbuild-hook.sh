@@ -108,7 +108,9 @@ case $FINAL in
 		echo "Illegal"
 		;;
 esac
-
+echo "Adding git revision file"
+GIT_REVISION=$(git rev-parse --quiet --short HEAD)
+echo $GIT_REVISION > $IMAGES/gitrev.txt
 echo "Creating OTA file"
 tar -cvf $RELEASE_DIR/demo_ota.tar -C $IMAGES uImage.lzma rootfs.squashfs otatype.txt
 

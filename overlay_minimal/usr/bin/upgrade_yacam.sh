@@ -37,7 +37,7 @@ do_flash() {
 
 if [[ $# -lt 2 ]] ; then
   echo './upgrade_yacam.sh <MODE> <PARAMS>'
-  echo '  GIT <GIT_TAG>'
+  echo '  GIT y' #<GIT_TAG>'
   echo '  SD <FILE ON SDCARD>'
   echo '  WWW <FILE ON TMP>'
   exit 1
@@ -69,18 +69,41 @@ MODE=`echo $1 | tr [:lower:] [:upper:]`
 
 case "$MODE" in
   GIT)
-    echo -e "\nDownloading updated images from GitHub..."
-    curl -fL https://github.com/schneemaier/yacam/releases/download/$GIT_TAG/$OTAFILE -o /tmp/demo_ota.tar
+    echo "\nDownloading updated images from GitHub..."
+    #curl -fL https://github.com/schneemaier/yacam/releases/download/$GIT_TAG/$OTAFILE -o /tmp/demo_ota.tar
+    GFILE=`curl -s https://api.github.com/repos/schneemaier/yacam/releases/latest | grep 'browser_' | cut -d\" -f4 | grep $OTAFILE`
     if [[ $? -ne 0 ]]; then
       echo "Failed to download YaCAM $2 OTA from GitHub."
       exit 1
     fi
+    curl -fL $GFILE -o /tmp/demo_ota.tar
+    if [[ $? -ne 0 ]]; then
+      echo "Failed to download YaCAM $2 OTA from GitHub."
+      exit 1
+    fi
+    echo "\nFile Downloaded!"
     tar -xvf /tmp/demo_ota.tar
     if [[ $? -ne 0 ]]; then
-      echo "TAR error"
+      echo "TAR error. Reboot in 5 seconds"
+      do_reboot &
       exit 1
     fi
     echo "Image downloaded and extracted successfully."
+    if [ `cat /tmp/otatype.txt` != "$OTATYPE" ]
+    then
+      echo "Incorrect OTA type. Reboot in 5 seconds"
+      do_reboot &
+      exit 1
+    fi
+    # is this the rigth GIT version?
+    CURRENT=`cat /etc/GITVERSION`
+    NEW=`cat /tmp/gitrev.txt`
+    if [ $CURRENT == $NEW ]
+    then
+      echo "Latest version already installed!"
+      echo "Reboot in 5 seconds!"
+      exit 1
+    fi
     ;;
   SD)
     mount /dev/mmcblk0p1 /sdcard
@@ -118,6 +141,7 @@ case "$MODE" in
     exit 1
     ;;
 esac
+
 
 # Doing a while loop here to use break in case of failure
 while true; do

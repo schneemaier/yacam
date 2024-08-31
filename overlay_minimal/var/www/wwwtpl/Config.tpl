@@ -180,9 +180,10 @@ Content-type: text/html
               </select></td>
             </tr>
           </table>
-          <p><button class='button bred' type='submit' name='SUBMIT' onclick="return confirm('Are you sure to save changes?')">Submit</button></p>
-          <p><button class='button bred' type='button' name='REBOOT' onclick="reboot()">REBOOT</button></p>
-          <p><button class='button bred' type='button' name='FACTORYRESET' onclick="factoryReset()">Factory Reset</button></p>
+          <p><button class='button bred' type='submit' name='SUBMIT' onclick='return confirm("Are you sure to save changes?")'>Submit</button></p>
+          <p><button class='button bred' type='button' name='REBOOT' onclick='reboot()'>REBOOT</button></p>
+          <p><button class='button bred' type='button' name='FACTORYRESET' onclick='factoryReset("N")'>Factory Reset</button></p>
+          <p><button class='button bred' type='button' name='FACTORYRESETW' onclick='factoryReset("W")'>Factory Reset, keep WiFi</button></p>
         </form>
       <p></p>
     </div>
@@ -193,9 +194,16 @@ Content-type: text/html
           window.open('/cgi-bin/camreboot','_self');
         }  
       }
-      function factoryReset() {
-        if (confirm("Are you sure?") == true) {
-          window.open('/cgi-bin/camreset','_self');
+      function factoryReset(WIFI) {
+        if (WIFI == "W") {
+          txt="Reset, but keep WiFi settings?";
+        }
+        else
+        {
+          txt="Reset every settings?";
+        }
+        if (confirm(txt) == true) {
+          window.open('/cgi-bin/camreset?WIFI='+WIFI,'_self');
         }  
       }
       const timezonelist = document.getElementById("timezone_list");
